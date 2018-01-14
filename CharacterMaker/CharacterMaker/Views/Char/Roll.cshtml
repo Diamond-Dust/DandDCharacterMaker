@@ -1,0 +1,17 @@
+﻿@model CharacterMaker.Models.RollModel
+@{
+    ViewBag.Title = "Roll";
+}
+
+<h2> @ViewBag.Title</h2>
+
+@foreach (var i in Model.Rolls)
+{
+        <span>@i </span>
+}
+
+@foreach(var i in Model.SumOfRolls)
+{
+    <p>@i</p>
+}
+

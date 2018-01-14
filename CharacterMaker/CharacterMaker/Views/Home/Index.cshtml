@@ -1,0 +1,9 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+
+<div class="jumbotron">
+    <h1>Generation</h1>
+    <p class="lead">This site will guide you through simplified D&D character creation.</p>
+    <input type="button" class="btn btn-primary btn-lg" value="Let's generate! &raquo;" onclick="location.href='@Url.Action("Roll", "Char")'" />
+</div>
