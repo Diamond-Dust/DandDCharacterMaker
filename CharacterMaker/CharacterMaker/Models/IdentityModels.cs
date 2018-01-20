@@ -76,6 +76,8 @@ namespace CharacterMaker.Models
             modelBuilder.Entity<Skills>()
                 .Property(e => e.KeyAbility)
                 .IsFixedLength();
+
+            base.OnModelCreating(modelBuilder);
         }
 
     }

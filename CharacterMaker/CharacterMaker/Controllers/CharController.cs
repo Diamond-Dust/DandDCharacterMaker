@@ -32,9 +32,9 @@ namespace CharacterMaker.Controllers
 
         public ActionResult Race(RollModel roll)
         {
-            RaceModel race = new RaceModel(_dbContext);
+            RacesModel races = new RacesModel(_dbContext);
 
-            return View(race);
+            return View(races);
         }
 
         public ActionResult Class()

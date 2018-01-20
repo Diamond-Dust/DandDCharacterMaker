@@ -219,6 +219,7 @@
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\RaceModel.cs" />
+    <Compile Include="Models\RacesModel.cs" />
     <Compile Include="Models\RollModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />

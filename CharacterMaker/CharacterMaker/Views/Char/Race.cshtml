@@ -1,4 +1,4 @@
-﻿@model IEnumerable<CharacterMaker.Models.RaceModel>
+﻿@model CharacterMaker.Models.RacesModel
 
 @{
     ViewBag.Title = "Race";
@@ -6,22 +6,17 @@
 
 <h2>Race</h2>
 
+<div>
+    <h4>RacesModel</h4>
+    <hr />
+    @foreach (var i in Model.Races)
+    {
+        <dl class="dl-horizontal">
+            @i.Name
+        </dl>
+    }
+</div>
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
+    @Html.ActionLink("Back to List", "Index")
 </p>
-<table class="table">
-    <tr>
-        <th></th>
-    </tr>
-
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-            @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-            @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
-        </td>
-    </tr>
-}
-
-</table>

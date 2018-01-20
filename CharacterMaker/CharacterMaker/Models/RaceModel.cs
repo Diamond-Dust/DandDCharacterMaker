@@ -7,22 +7,15 @@ namespace CharacterMaker.Models
 {
     public class RaceModel
     {
-        private int[] RaceId;
-        public string[] Name { get; private set; }
-        private int[] ModifiersId;
+        private int RaceId;
+        public string Name { get; private set; }
+        private int ModifiersId;
 
-        public RaceModel(ApplicationDbContext _dbContext)
+        public RaceModel(int ID, string name, int modID)
         {
-            var raceList = _dbContext.Races.ToList();
-            ModifiersId = new int[raceList.Count()];
-            RaceId = new int[raceList.Count()];
-
-            for (int i=0; i<raceList.Count(); i++)
-            {
-                RaceId[i] = raceList[i].RaceID;
-                Name[i] = raceList.Where(x => x.RaceID == RaceId[i]).FirstOrDefault().Name;
-                ModifiersId[i] = raceList.Where(x => x.RaceID == RaceId[i]).FirstOrDefault().ModifiersID;
-            }
+            RaceId = ID;
+            Name = name;
+            ModifiersId = modID;
         }
     }
 }
