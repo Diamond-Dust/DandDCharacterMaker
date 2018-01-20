@@ -1410,7 +1410,7 @@ table {
 }
 
 th {
-  text-align: left;
+  text-align: center;
 }
 
 .table {
@@ -1998,6 +1998,8 @@ textarea.input-lg {
 }
 
 .btn {
+  margin-top: 2vh;
+  margin-bottom: 1vh;
   display: inline-block;
   padding: 6px 12px;
   margin-bottom: 0;

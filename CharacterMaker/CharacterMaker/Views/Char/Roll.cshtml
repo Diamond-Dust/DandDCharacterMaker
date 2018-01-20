@@ -2,16 +2,42 @@
 @{
     ViewBag.Title = "Roll";
 }
+<div class="jumbotron">
+    <h1 class="lead"> @ViewBag.Title </h1>
+</div>
 
-<h2> @ViewBag.Title</h2>
+<table id="RollTable">
+        <tr>
+            <th>No.</th>
+            <th>Rolls</th>
+            <th>Result</th>
+        </tr>
 
-@foreach (var i in Model.Rolls)
-{
-        <span>@i </span>
-}
+        @for (int i = 0; i < Model.numOfStats; i++)
+        {
+            <tr>
+                <td>@(i+1).</td>
+                <td>
+                    @for (int j = 0; j < Model.numOfRolls; j++)
+                    {
+                        if (j == Model.LowestRollIndexes[i])
+                        {<span><s>@Model.Rolls[i, j] </s></span>}
+                        else
+                        {<span>@Model.Rolls[i, j]</span>}
+                }
+                </td>
+                <td>@Model.SumOfRolls[i]</td>
+            </tr>
+        }
 
-@foreach(var i in Model.SumOfRolls)
-{
-    <p>@i</p>
-}
+</table>
 
+<div class="JustifyAround">
+    @if (Model.CanReroll)
+        {<input type="button" class="btn btn-primary btn-lg" value="Reroll" onclick="location.href='@Url.Action("Roll", "Char")'" />}
+    @using (Html.BeginForm("Race", "Char", FormMethod.Post))
+    {
+        <input type="submit" class="btn btn-primary btn-lg" value="Accept rolls" />
+    }
+   
+</div>

@@ -192,7 +192,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ADO\ADODandD.cs" />
     <Compile Include="ADO\Alignments.cs" />
     <Compile Include="ADO\Classes.cs" />
     <Compile Include="ADO\Deities.cs" />
@@ -215,9 +214,11 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\RaceModel.cs" />
     <Compile Include="Models\RollModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
@@ -283,6 +284,8 @@
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Char\Roll.cshtml" />
+    <Content Include="Views\Char\Class.cshtml" />
+    <Content Include="Views\Char\Race.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

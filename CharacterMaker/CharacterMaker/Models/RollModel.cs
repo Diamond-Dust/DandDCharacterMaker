@@ -7,15 +7,22 @@ namespace CharacterMaker.Models
 {
     public class RollModel
     {
+        public bool CanReroll { get; set; }
+        public int numOfRolls { get; private set; }
+        public int numOfStats { get; private set; }
         public int[,] Rolls { get; set; }
         public int[] SumOfRolls { get; set; }
-        public int[] LowestRollIndexes { get; set; }
+        public int[] LowestRollIndexes { get; set; } 
+        public string[] StatNames { get; private set; }
 
         public RollModel()
         {
-            Rolls = new int[6,4];
-            SumOfRolls = new int[6];
-            LowestRollIndexes = new int[6];
+            StatNames = new string[] { "STR", "DEX", "CON", "INT", "WIS", "CHA" };
+            numOfRolls = 4;
+            numOfStats = 6;
+            Rolls = new int[numOfStats, numOfRolls];
+            SumOfRolls = new int[numOfStats];
+            LowestRollIndexes = new int[numOfStats];
         } 
     }
 }

@@ -10,20 +10,37 @@ namespace CharacterMaker.Controllers
 {
     public class CharController : Controller
     {
+        private ApplicationDbContext _dbContext;
         private BusinessLogic _businessLogic;
+        private RollModel _roll;
         public CharController()
         {
             _businessLogic = new BusinessLogic();
+            _roll = new RollModel();
+            _dbContext = new ApplicationDbContext();
         }
 
         // GET: Char
         public ActionResult Roll()
         {
-            RollModel Roll = new RollModel();
-            _businessLogic.RollTide(Roll.Rolls);
-            _businessLogic.SumTheStrong(Roll);
+            _businessLogic.RollTide(_roll.Rolls, _roll.numOfRolls, _roll.numOfStats);
+            _businessLogic.SumTheStrong(_roll);
+            _businessLogic.CheckReroll(_roll);
 
-            return View(Roll);
+            return View(_roll);
+        }
+
+        public ActionResult Race(RollModel roll)
+        {
+            RaceModel race = new RaceModel(_dbContext);
+
+            return View(race);
+        }
+
+        public ActionResult Class()
+        {
+
+            return View();
         }
     }
 }
