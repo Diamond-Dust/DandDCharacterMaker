@@ -5,17 +5,19 @@ using System.Web;
 
 namespace CharacterMaker.Models
 {
-    public class RacesModel
+    public class RacesViewModel
     {
         public RaceModel[] Races {get; private set;}
+        public int[] StatModifiers { get; set; }
 
-        public RacesModel(ApplicationDbContext _dbContext)
+        public RacesViewModel(ApplicationDbContext _dbContext)
         {
             int RaceId, ModifiersId;
             string Name;
 
             var raceList = _dbContext.Races.ToList();
             Races = new RaceModel[raceList.Count()];
+            StatModifiers = new int[6];
 
             for (int i = 0; i < raceList.Count(); i++)
             {

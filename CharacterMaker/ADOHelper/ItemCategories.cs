@@ -1,4 +1,4 @@
-namespace CharacterMaker.ADO
+namespace ADOHelper
 {
     using System;
     using System.Collections.Generic;
@@ -6,36 +6,22 @@ namespace CharacterMaker.ADO
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
-    public partial class Races
+    public partial class ItemCategories
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Races()
+        public ItemCategories()
         {
-            Player = new HashSet<Player>();
+            Items = new HashSet<Items>();
         }
 
         [Key]
-        public int RaceID { get; set; }
+        public int ItemCategoryID { get; set; }
 
         [Required]
         [StringLength(50)]
         public string Name { get; set; }
 
-        public int ModifiersID { get; set; }
-
-        public int Speed { get; set; }
-
-        [Required]
-        [StringLength(50)]
-        public string Size { get; set; }
-
-        public int? PreferredClassID { get; set; }
-
-        public virtual Classes Classes { get; set; }
-
-        public virtual ModifierSets ModifierSets { get; set; }
-
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Player> Player { get; set; }
+        public virtual ICollection<Items> Items { get; set; }
     }
 }

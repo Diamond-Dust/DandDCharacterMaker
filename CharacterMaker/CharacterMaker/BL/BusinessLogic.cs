@@ -64,5 +64,44 @@ namespace CharacterMaker.BL
 
             roll.CanReroll = ((modifierSum < 0) || (Highest <= 13)) ? true : false ;
         }
+
+        public void UpdateModifiers(ApplicationDbContext db, RacesViewModel races, int raceIndex)
+        {
+            int checkingID = races.Races[raceIndex].GetModID();
+            var modifiers = db.ModifierSets.Where(x => x.ModifierID == checkingID).FirstOrDefault();
+            races.StatModifiers[0] = modifiers.STRModifier;
+            races.StatModifiers[1] = modifiers.DEXModifier;
+            races.StatModifiers[2] = modifiers.CONModifier;
+            races.StatModifiers[3] = modifiers.INTModifier;
+            races.StatModifiers[4] = modifiers.WISModifier;
+            races.StatModifiers[5] = modifiers.CHAModifier;
+        }
+        public void UpdateModifiers(ApplicationDbContext db, ClassesViewModel classes, int raceIndex)
+        {
+            int checkingID = classes.Classes[raceIndex].ModifiersID;
+            var modifiers = db.ModifierSets.Where(x => x.ModifierID == checkingID).FirstOrDefault();
+            classes.StatModifiers[0] = modifiers.STRModifier;
+            classes.StatModifiers[1] = modifiers.DEXModifier;
+            classes.StatModifiers[2] = modifiers.CONModifier;
+            classes.StatModifiers[3] = modifiers.INTModifier;
+            classes.StatModifiers[4] = modifiers.WISModifier;
+            classes.StatModifiers[5] = modifiers.CHAModifier;
+        }
+
+        public void PlayerUpdateRace(PlayerModel player, int raceID)
+        {
+            player.RaceID = raceID;
+        }
+        public void PlayerUpdateClass(PlayerModel player, int ClassID)
+        {
+            player.ClassID = ClassID;
+        }
+
+        public void CheckPreferredClass(ApplicationDbContext db, ClassesViewModel classes, int raceID)
+        {
+            int? prefClassID = db.Races.Where(x => x.RaceID == raceID).FirstOrDefault()?.PreferredClassID;
+
+            classes.PreferredClass = (prefClassID != null) ? db.Classes.Where(x=>x.ClassID == prefClassID).FirstOrDefault().Name : "";
+        }
     }
 }

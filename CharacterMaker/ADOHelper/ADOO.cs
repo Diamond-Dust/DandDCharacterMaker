@@ -1,34 +1,15 @@
-﻿using System.Data.Entity;
-using System.Security.Claims;
-using System.Threading.Tasks;
-using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.EntityFramework;
-using CharacterMaker.ADO;
-
-namespace CharacterMaker.Models
+namespace ADOHelper
 {
-    // You can add profile data for the user by adding more properties to your ApplicationUser class, please visit http://go.microsoft.com/fwlink/?LinkID=317594 to learn more.
-    public class ApplicationUser : IdentityUser
-    {
-        public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
-        {
-            // Note the authenticationType must match the one defined in CookieAuthenticationOptions.AuthenticationType
-            var userIdentity = await manager.CreateIdentityAsync(this, DefaultAuthenticationTypes.ApplicationCookie);
-            // Add custom user claims here
-            return userIdentity;
-        }
-    }
+    using System;
+    using System.Data.Entity;
+    using System.ComponentModel.DataAnnotations.Schema;
+    using System.Linq;
 
-    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
+    public partial class ADOO : DbContext
     {
-        public ApplicationDbContext()
-            : base("name=ADODandD", throwIfV1Schema: false)
+        public ADOO()
+            : base("name=ADOO")
         {
-        }
-
-        public static ApplicationDbContext Create()
-        {
-            return new ApplicationDbContext();
         }
 
         public virtual DbSet<Alignments> Alignments { get; set; }
@@ -36,11 +17,13 @@ namespace CharacterMaker.Models
         public virtual DbSet<Deities> Deities { get; set; }
         public virtual DbSet<Feats> Feats { get; set; }
         public virtual DbSet<ItemCategories> ItemCategories { get; set; }
-        public virtual DbSet<ModifierSets> ModifierSets { get; set; }
         public virtual DbSet<Items> Items { get; set; }
+        public virtual DbSet<ModifierSets> ModifierSets { get; set; }
         public virtual DbSet<Player> Player { get; set; }
         public virtual DbSet<Races> Races { get; set; }
         public virtual DbSet<Skills> Skills { get; set; }
+        public virtual DbSet<SkillSets> SkillSets { get; set; }
+        public virtual DbSet<sysdiagrams> sysdiagrams { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -48,6 +31,11 @@ namespace CharacterMaker.Models
                 .HasMany(e => e.Player)
                 .WithRequired(e => e.Alignments)
                 .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<Alignments>()
+                .HasMany(e => e.Classes)
+                .WithMany(e => e.Alignments)
+                .Map(m => m.ToTable("AlignmentSets").MapLeftKey("AlignmentID").MapRightKey("ClassID"));
 
             modelBuilder.Entity<Classes>()
                 .HasMany(e => e.Player)
@@ -59,24 +47,31 @@ namespace CharacterMaker.Models
                 .WithOptional(e => e.Classes)
                 .HasForeignKey(e => e.PreferredClassID);
 
+            modelBuilder.Entity<Classes>()
+                .HasMany(e => e.SkillSets)
+                .WithRequired(e => e.Classes)
+                .HasForeignKey(e => e.ClassPlayerModifierID)
+                .WillCascadeOnDelete(false);
+
             modelBuilder.Entity<Deities>()
                 .HasMany(e => e.Player)
                 .WithRequired(e => e.Deities)
                 .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<Feats>()
+                .HasMany(e => e.Player)
+                .WithMany(e => e.Feats)
+                .Map(m => m.ToTable("FeatSets").MapLeftKey("FeatID").MapRightKey("PlayerID"));
 
             modelBuilder.Entity<ItemCategories>()
                 .HasMany(e => e.Items)
                 .WithRequired(e => e.ItemCategories)
                 .WillCascadeOnDelete(false);
 
-            modelBuilder.Entity<Races>()
+            modelBuilder.Entity<Items>()
                 .HasMany(e => e.Player)
-                .WithRequired(e => e.Races)
-                .WillCascadeOnDelete(false);
-
-            modelBuilder.Entity<Skills>()
-                .Property(e => e.KeyAbility)
-                .IsFixedLength();
+                .WithMany(e => e.Items)
+                .Map(m => m.ToTable("ItemSets").MapLeftKey("ItemID").MapRightKey("PlayerID"));
 
             modelBuilder.Entity<ModifierSets>()
                 .HasMany(e => e.Classes)
@@ -96,8 +91,31 @@ namespace CharacterMaker.Models
                 .HasForeignKey(e => e.ModifiersID)
                 .WillCascadeOnDelete(false);
 
-            base.OnModelCreating(modelBuilder);
-        }
+            modelBuilder.Entity<ModifierSets>()
+                .HasMany(e => e.SkillSets)
+                .WithRequired(e => e.ModifierSets)
+                .HasForeignKey(e => e.ClassPlayerModifierID)
+                .WillCascadeOnDelete(false);
 
+            modelBuilder.Entity<Player>()
+                .HasMany(e => e.SkillSets)
+                .WithRequired(e => e.Player)
+                .HasForeignKey(e => e.ClassPlayerModifierID)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<Races>()
+                .HasMany(e => e.Player)
+                .WithRequired(e => e.Races)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<Skills>()
+                .Property(e => e.KeyAbility)
+                .IsFixedLength();
+
+            modelBuilder.Entity<Skills>()
+                .HasMany(e => e.SkillSets)
+                .WithRequired(e => e.Skills)
+                .WillCascadeOnDelete(false);
+        }
     }
 }

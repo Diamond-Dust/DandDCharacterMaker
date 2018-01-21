@@ -1,22 +1,55 @@
-﻿@model CharacterMaker.Models.RacesModel
+﻿@model CharacterMaker.Models.RacesViewModel
 
 @{
     ViewBag.Title = "Race";
 }
 
-<h2>Race</h2>
+<h2>@ViewBag.Title</h2>
 
 <div>
-    <h4>RacesModel</h4>
+    <h4>Abilities</h4>
+    <hr/>
+    <table class="table">
+        <tr>
+            @for (int i = 0; i < ViewBag.Rolls.StatNames.Length; i++)
+            {
+                <th>@ViewBag.Rolls.StatNames[i]</th>
+            }
+        </tr>
+        <tr>
+            @for (int i = 0; i < ViewBag.Rolls.SumOfRolls.Length; i++)
+            {
+                <th>@Model.StatModifiers[i]</th>
+            }
+        </tr>
+    </table>
+
+    <h4>Choose your race</h4>
     <hr />
-    @foreach (var i in Model.Races)
+    <table class="table">
+        <tr>
+            <th>Race</th>
+            <th></th>
+        </tr>
+        <tr>
+            @for (int i = 0; i < Model.Races.Length; i++)
+            {
+                <td>
+                    @Model.Races[i].Name
+                </td>
+                <td>
+                    @if (ViewBag.Radio == i)
+                        {<input type="radio" name="raceChoice" class="radio" checked="checked" onclick="location.href='@Url.Action("Race", "Char", new { RaceID = i })'" />}
+                    else
+                        {<input type = "radio" name = "raceChoice" class="radio" onclick="location.href='@Url.Action("Race", "Char", new { RaceID = i })'" />}
+                </td>
+            }
+        </tr>
+    </table>
+    @if (ViewBag.Radio != -1)
     {
-        <dl class="dl-horizontal">
-            @i.Name
-        </dl>
+        <div class="JustifyAround">
+            <input type="button" class="btn btn-primary btn-lg" value="Confirm race" onclick="location.href='@Url.Action("Class", "Char")'" />
+        </div>
     }
 </div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>

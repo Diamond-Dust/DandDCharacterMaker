@@ -1,4 +1,4 @@
-namespace CharacterMaker.ADO
+namespace ADOHelper
 {
     using System;
     using System.Collections.Generic;

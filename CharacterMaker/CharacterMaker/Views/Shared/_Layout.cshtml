@@ -4,9 +4,32 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>D&D Character Maker</title>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
-
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script>
+          $( function() {
+              $(".draggable").each(function () {
+                  $(this).draggable({
+                      helper: "clone",
+                      containment: "document",
+                      start: function (event, ui) {
+                          $(this).parent("th").removeClass("ui-state-highlight");
+                      }
+                  });
+              });
+              $(".droppable").each(function (event, ui) {
+                  $(this).droppable({
+                        drop: function (event, ui) {
+                            ui.draggable.appendTo($(this))
+                            $(this).addClass("ui-state-highlight");
+                        }
+                  });
+              });
+            });
+    </script>
 </head>
 <body>
     <div class="navbar navbar-inverse navbar-fixed-top">
@@ -32,7 +55,7 @@
         </footer>
     </div>
 
-    @Scripts.Render("~/bundles/jquery")
+    @*@Scripts.Render("~/bundles/jquery")*@
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
 </body>

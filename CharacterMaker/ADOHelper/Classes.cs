@@ -1,4 +1,4 @@
-namespace CharacterMaker.ADO
+namespace ADOHelper
 {
     using System;
     using System.Collections.Generic;
@@ -13,6 +13,8 @@ namespace CharacterMaker.ADO
         {
             Player = new HashSet<Player>();
             Races = new HashSet<Races>();
+            SkillSets = new HashSet<SkillSets>();
+            Alignments = new HashSet<Alignments>();
         }
 
         [Key]
@@ -35,5 +37,11 @@ namespace CharacterMaker.ADO
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Races> Races { get; set; }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<SkillSets> SkillSets { get; set; }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Alignments> Alignments { get; set; }
     }
 }

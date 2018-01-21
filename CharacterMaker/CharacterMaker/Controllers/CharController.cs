@@ -8,37 +8,72 @@ using System.Web.Mvc;
 
 namespace CharacterMaker.Controllers
 {
-    public class CharController : Controller
+    public class CharController : ControllerSharedSession
     {
         private ApplicationDbContext _dbContext;
         private BusinessLogic _businessLogic;
-        private RollModel _roll;
+        private PlayerViewModel _player;
         public CharController()
         {
             _businessLogic = new BusinessLogic();
-            _roll = new RollModel();
             _dbContext = new ApplicationDbContext();
+            if ((this.SharedSession != null) && (this.SharedSession["PassModels"] != null))
+                _player = (PlayerViewModel)this.SharedSession["PassModels"];
+            else
+                _player = new PlayerViewModel();
         }
 
         // GET: Char
         public ActionResult Roll()
         {
-            _businessLogic.RollTide(_roll.Rolls, _roll.numOfRolls, _roll.numOfStats);
-            _businessLogic.SumTheStrong(_roll);
-            _businessLogic.CheckReroll(_roll);
+            _businessLogic.RollTide(_player.Rolls.Rolls, _player.Rolls.numOfRolls, _player.Rolls.numOfStats);
+            _businessLogic.SumTheStrong(_player.Rolls);
+            _businessLogic.CheckReroll(_player.Rolls);
+            this.SharedSession["PassModels"] = _player;
 
-            return View(_roll);
+            return View(_player.Rolls);
         }
 
-        public ActionResult Race(RollModel roll)
+        public ActionResult Race(int? RaceID)
         {
-            RacesModel races = new RacesModel(_dbContext);
+            RacesViewModel races = new RacesViewModel(_dbContext);
+            if (RaceID != null)
+            {
+                _businessLogic.UpdateModifiers(_dbContext, races, (int)RaceID);
+                _businessLogic.PlayerUpdateRace(_player.Player, (int)RaceID);
+                ViewBag.Radio = RaceID;
+            }
+            else
+                ViewBag.Radio = -1;
+                
+
+            ViewBag.Rolls = _player.Rolls;
 
             return View(races);
         }
 
-        public ActionResult Class()
+        [HttpGet]
+        public ActionResult Class(int? ClassID)
         {
+            ClassesViewModel classes = new ClassesViewModel(_dbContext);
+            _businessLogic.CheckPreferredClass(_dbContext, classes, _player.Player.RaceID);
+
+            if (ClassID != null)
+            {
+                _businessLogic?.UpdateModifiers(_dbContext, classes, (int)ClassID);
+                _businessLogic.PlayerUpdateClass(_player.Player, (int)ClassID);
+                ViewBag.Radio = ClassID;
+            }
+            else
+                ViewBag.Radio = -1;
+
+
+            return View(classes);
+        }
+
+        public ActionResult Abilities()
+        {
+            ViewBag.Rolls = _player.Rolls;
 
             return View();
         }

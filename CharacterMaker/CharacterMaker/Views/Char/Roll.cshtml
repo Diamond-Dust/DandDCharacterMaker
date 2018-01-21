@@ -35,9 +35,10 @@
 <div class="JustifyAround">
     @if (Model.CanReroll)
         {<input type="button" class="btn btn-primary btn-lg" value="Reroll" onclick="location.href='@Url.Action("Roll", "Char")'" />}
-    @using (Html.BeginForm("Race", "Char", FormMethod.Post))
+    <input type="button" class="btn btn-primary btn-lg" value="Accept rolls" onclick="location.href='@Url.Action("Race", "Char")'" />
+    <!--using (Html.BeginForm("Race", "Char", FormMethod.Post))
     {
         <input type="submit" class="btn btn-primary btn-lg" value="Accept rolls" />
-    }
+    }-->
    
 </div>

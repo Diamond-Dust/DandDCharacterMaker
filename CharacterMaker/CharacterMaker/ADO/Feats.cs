@@ -21,5 +21,7 @@ namespace CharacterMaker.ADO
         public string Description { get; set; }
 
         public bool CanStack { get; set; }
+
+        public virtual ModifierSets ModifierSets { get; set; }
     }
 }

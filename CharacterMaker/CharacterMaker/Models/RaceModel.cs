@@ -17,5 +17,10 @@ namespace CharacterMaker.Models
             Name = name;
             ModifiersId = modID;
         }
+
+        public int GetModID()
+        {
+            return ModifiersId;
+        }
     }
 }

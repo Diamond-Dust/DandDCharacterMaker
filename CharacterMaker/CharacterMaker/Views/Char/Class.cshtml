@@ -1,7 +1,46 @@
-﻿
+﻿@model CharacterMaker.Models.ClassesViewModel
 @{
     ViewBag.Title = "Class";
 }
 
-<h2>Class</h2>
+<h2>@ViewBag.Title</h2>
 
+<div>
+    <h4>Choose your class</h4>
+    <hr />
+    <table class="table">
+        <tr>
+            <th>Class</th>
+            <th></th>
+        </tr>
+        <tr>
+            @for (int i = 0; i < Model.Classes.Length; i++)
+            {
+                if (Model.Classes[i].Name == Model.PreferredClass)
+                {
+                    <td>
+                        <strong>@Model.Classes[i].Name</strong>
+                    </td>
+                }
+                else
+                {
+                    <td>
+                        @Model.Classes[i].Name
+                    </td>
+                }
+                <td>
+                    @if (ViewBag.Radio == i)
+                    {<input type="radio" name="classChoice" class="radio" checked="checked" onclick="location.href='@Url.Action("Class", "Char", new { ClassID = i })'" />}
+                    else
+                    {<input type="radio" name="classChoice" class="radio" onclick="location.href='@Url.Action("Class", "Char", new { ClassID = i })'" />}
+                </td>
+            }
+        </tr>
+    </table>
+    @if (ViewBag.Radio != -1)
+    {
+        <div class="JustifyAround">
+            <input type="button" class="btn btn-primary btn-lg" value="Confirm race" onclick="location.href='@Url.Action("Abilities", "Char")'" />
+        </div>
+    }
+</div>

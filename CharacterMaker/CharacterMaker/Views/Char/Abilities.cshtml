@@ -1,0 +1,30 @@
+﻿
+@{
+    ViewBag.Title = "Abilities";
+}
+
+<h2>Abilities</h2>
+
+<table class="table">
+    <tr>
+        @for (int i = 0; i < ViewBag.Rolls.StatNames.Length; i++)
+            {
+            <th>@ViewBag.Rolls.StatNames[i]</th>
+        }
+    </tr>
+    <tr>
+        @for (int i = 0; i < ViewBag.Rolls.SumOfRolls.Length; i++)
+            {
+            <th class="droppable ui-widget-header"></th>
+        }
+    </tr>
+    <tr>
+        @for (int i = 0; i < ViewBag.Rolls.SumOfRolls.Length; i++)
+            {
+            <td><div class="draggable ui-widget-content">@ViewBag.Rolls.SumOfRolls[i]</div></td>
+        }
+    </tr>
+</table>
+
+
+
