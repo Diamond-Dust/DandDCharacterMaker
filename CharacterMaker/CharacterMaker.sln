@@ -1,13 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+VisualStudioVersion = 14.0.24720.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CharacterMaker", "CharacterMaker\CharacterMaker.csproj", "{C5B4E121-3E6C-4DFB-A9DE-FD8306048A60}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DBCreate", "DBCreate", "{6FEBAF2C-E7AC-4F66-A18D-0820BCBCAB64}"
 	ProjectSection(SolutionItems) = preProject
-		DandD.sql = DandD.sql
+		..\..\..\..\..\script.sql = ..\..\..\..\..\script.sql
 	EndProjectSection
 EndProject
 Global
