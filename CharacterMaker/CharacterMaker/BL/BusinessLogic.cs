@@ -76,9 +76,9 @@ namespace CharacterMaker.BL
             races.StatModifiers[4] = modifiers.WISModifier;
             races.StatModifiers[5] = modifiers.CHAModifier;
         }
-        public void UpdateModifiers(ApplicationDbContext db, ClassesViewModel classes, int raceIndex)
+        public void UpdateModifiers(ApplicationDbContext db, ClassesViewModel classes, int classIndex)
         {
-            int checkingID = classes.Classes[raceIndex].ModifiersID;
+            int checkingID = classes.Classes[classIndex].ModifiersID;
             var modifiers = db.ModifierSets.Where(x => x.ModifierID == checkingID).FirstOrDefault();
             classes.StatModifiers[0] = modifiers.STRModifier;
             classes.StatModifiers[1] = modifiers.DEXModifier;
@@ -87,14 +87,32 @@ namespace CharacterMaker.BL
             classes.StatModifiers[4] = modifiers.WISModifier;
             classes.StatModifiers[5] = modifiers.CHAModifier;
         }
+        public int[] UpdateModifiers(ApplicationDbContext db, int classID, int raceID)
+        {
+            int[] StatArray = new int[6];
+            var RmodID = db.Races.Where(x => x.RaceID == raceID).FirstOrDefault().ModifiersID;
+            var CmodID = db.Classes.Where(x => x.ClassID == classID).FirstOrDefault().ModifiersID;
+            var Rmodifiers = db.ModifierSets.Where(x => x.ModifierID == RmodID).FirstOrDefault();
+            var Cmodifiers = db.ModifierSets.Where(x => x.ModifierID == CmodID).FirstOrDefault();
+            StatArray[0] = Rmodifiers.STRModifier + Cmodifiers.STRModifier;
+            StatArray[1] = Rmodifiers.DEXModifier + Cmodifiers.DEXModifier;
+            StatArray[2] = Rmodifiers.CONModifier + Cmodifiers.CONModifier;
+            StatArray[3] = Rmodifiers.INTModifier + Cmodifiers.INTModifier;
+            StatArray[4] = Rmodifiers.WISModifier + Cmodifiers.WISModifier;
+            StatArray[5] = Rmodifiers.CHAModifier + Cmodifiers.CHAModifier;
 
-        public void PlayerUpdateRace(PlayerModel player, int raceID)
-        {
-            player.RaceID = raceID;
+            return StatArray;
         }
-        public void PlayerUpdateClass(PlayerModel player, int ClassID)
+
+        public void PlayerUpdateRace(ApplicationDbContext db, PlayerModel player, int raceID)
         {
-            player.ClassID = ClassID;
+            var RID = db.Races.Where(x => x.RaceID == raceID).FirstOrDefault().RaceID;
+            player.RaceID = RID;
+        }
+        public void PlayerUpdateClass(ApplicationDbContext db, PlayerModel player, int classID)
+        {
+            var CID = db.Classes.Where(x => x.ClassID == classID).FirstOrDefault().ClassID;
+            player.ClassID = CID;
         }
 
         public void CheckPreferredClass(ApplicationDbContext db, ClassesViewModel classes, int raceID)

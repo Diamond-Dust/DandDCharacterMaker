@@ -40,7 +40,7 @@ namespace CharacterMaker.Controllers
             if (RaceID != null)
             {
                 _businessLogic.UpdateModifiers(_dbContext, races, (int)RaceID);
-                _businessLogic.PlayerUpdateRace(_player.Player, (int)RaceID);
+                _businessLogic.PlayerUpdateRace(_dbContext, _player.Player, races.Races[(int)RaceID].GetRaceID());
                 ViewBag.Radio = RaceID;
             }
             else
@@ -48,6 +48,8 @@ namespace CharacterMaker.Controllers
                 
 
             ViewBag.Rolls = _player.Rolls;
+
+            this.SharedSession["PassModels"] = _player;
 
             return View(races);
         }
@@ -61,12 +63,13 @@ namespace CharacterMaker.Controllers
             if (ClassID != null)
             {
                 _businessLogic?.UpdateModifiers(_dbContext, classes, (int)ClassID);
-                _businessLogic.PlayerUpdateClass(_player.Player, (int)ClassID);
+                _businessLogic.PlayerUpdateClass(_dbContext, _player.Player, classes.Classes[(int)ClassID].ClassID);
                 ViewBag.Radio = ClassID;
             }
             else
                 ViewBag.Radio = -1;
 
+            this.SharedSession["PassModels"] = _player;
 
             return View(classes);
         }
@@ -74,6 +77,21 @@ namespace CharacterMaker.Controllers
         public ActionResult Abilities()
         {
             ViewBag.Rolls = _player.Rolls;
+            ViewBag.StatModifiers = _businessLogic.UpdateModifiers(_dbContext, _player.Player.ClassID, _player.Player.RaceID);
+
+            this.SharedSession["PassModels"] = _player;
+
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult Skills(ModifierModel abilities)
+        {
+            _player.Modifiers = abilities;
+
+
+
+            this.SharedSession["PassModels"] = _player;
 
             return View();
         }

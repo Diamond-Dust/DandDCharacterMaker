@@ -9,11 +9,13 @@ namespace CharacterMaker.Models
     {
         public PlayerModel Player { get; set; }
         public RollModel Rolls { get; set; }
+        public ModifierModel Modifiers { get; set; }
 
         public PlayerViewModel()
         {
             Player = new PlayerModel();
             Rolls = new RollModel();
+            Modifiers = new ModifierModel();
         }
     }
 }

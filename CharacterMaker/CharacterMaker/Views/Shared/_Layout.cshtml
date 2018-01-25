@@ -13,18 +13,34 @@
           $( function() {
               $(".draggable").each(function () {
                   $(this).draggable({
-                      helper: "clone",
-                      containment: "document",
                       start: function (event, ui) {
-                          $(this).parent("th").removeClass("ui-state-highlight");
-                      }
+                            if ($(this).parent("th").children().length == 2)
+                                $(this).parent("th").removeClass("ui-state-highlight");
+                            else if ($(this).parent("th").children().length == 3)
+                                $(this).parent("th").addClass("ui-state-highlight");
+                      },
+                      helper: "clone",
+                      containment: "document"
                   });
               });
               $(".droppable").each(function (event, ui) {
                   $(this).droppable({
                         drop: function (event, ui) {
+                            if(($(this).children().length == 0) || ($.contains($(this).get(0), $(".ui-draggable-dragging").first().get(0))))
+                                $(this).addClass("ui-state-highlight");
+                            else
+                                $(this).removeClass("ui-state-highlight");
                             ui.draggable.appendTo($(this))
-                            $(this).addClass("ui-state-highlight");
+                            if($(".droppable .draggable:only-child").length == 6)
+                            {
+                                $(".STRM").first().val( $(".droppable .draggable").eq(0).text() );
+                                $(".DEXM").first().val( $(".droppable .draggable").eq(1).text() );
+                                $(".CONM").first().val( $(".droppable .draggable").eq(2).text() );
+                                $(".INTM").first().val( $(".droppable .draggable").eq(3).text() );
+                                $(".WISM").first().val( $(".droppable .draggable").eq(4).text() );
+                                $(".CHAM").first().val( $(".droppable .draggable").eq(5).text() );
+                                $(".SUBM").first().attr("type", "submit");
+                            }
                         }
                   });
               });

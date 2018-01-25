@@ -22,5 +22,9 @@ namespace CharacterMaker.Models
         {
             return ModifiersId;
         }
+        public int GetRaceID()
+        {
+            return RaceId;
+        }
     }
 }

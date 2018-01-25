@@ -1,4 +1,4 @@
-﻿
+﻿@model CharacterMaker.Models.ModifierModel
 @{
     ViewBag.Title = "Abilities";
 }
@@ -10,6 +10,12 @@
         @for (int i = 0; i < ViewBag.Rolls.StatNames.Length; i++)
             {
             <th>@ViewBag.Rolls.StatNames[i]</th>
+        }
+    </tr>
+    <tr>
+        @for (int i = 0; i < ViewBag.StatModifiers.Length; i++)
+            {
+            <th>@ViewBag.StatModifiers[i]</th>
         }
     </tr>
     <tr>
@@ -25,6 +31,21 @@
         }
     </tr>
 </table>
+
+@using (@Html.BeginForm("Skills", "Char", FormMethod.Post))
+{
+    @Html.HiddenFor(m => m.STRModifier, new { @class = "STRM" });
+    @Html.HiddenFor(m => m.DEXModifier, new { @class = "DEXM" });
+    @Html.HiddenFor(m => m.CONModifier, new { @class = "CONM" });
+    @Html.HiddenFor(m => m.INTModifier, new { @class = "INTM" });
+    @Html.HiddenFor(m => m.WISModifier, new { @class = "WISM" });
+    @Html.HiddenFor(m => m.CHAModifier, new { @class = "CHAM" });
+
+    <div class="JustifyAround">
+        <input type="hidden" class="btn btn-primary btn-lg SUBM" value="Accept Abilities")'" />
+    </div>
+
+}
 
 
 
