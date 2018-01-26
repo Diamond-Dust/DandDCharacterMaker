@@ -89,6 +89,23 @@ namespace CharacterMaker.Controllers
         {
             _player.Modifiers = abilities;
 
+            SkillsViewModel skills = new SkillsViewModel(_dbContext);
+            skills.AvalaiblePoints = _businessLogic.CheckAvailableSkillPoints(_dbContext, _player);
+
+            this.SharedSession["PassModels"] = _player;
+
+            return View(skills);
+        }
+
+        [HttpPost]
+        public ActionResult Feats(SkillsViewModel skills)
+        {
+            _player.Skills = new SkillLevelModel(skills.SkillValues.Count());
+            for(int i=0; i< skills.SkillValues.Count(); i++)
+                _player.Skills.SkillID[i] = skills.Skills[i].SkillID;
+            _player.Skills.SkillLevel = skills.SkillValues.ToArray();
+
+            //SkillsViewModel skills = new SkillsViewModel(_dbContext);
 
 
             this.SharedSession["PassModels"] = _player;

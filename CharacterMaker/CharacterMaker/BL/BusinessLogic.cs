@@ -58,7 +58,7 @@ namespace CharacterMaker.BL
                     Highest = roll.SumOfRolls[i];
 
                 currentCheckedSum = (roll.SumOfRolls[i] % 2 == 0) ? roll.SumOfRolls[i] : roll.SumOfRolls[i]-1;
-
+                currentCheckedSum -= 10;
                 modifierSum = currentCheckedSum / 2;
             }
 
@@ -120,6 +120,15 @@ namespace CharacterMaker.BL
             int? prefClassID = db.Races.Where(x => x.RaceID == raceID).FirstOrDefault()?.PreferredClassID;
 
             classes.PreferredClass = (prefClassID != null) ? db.Classes.Where(x=>x.ClassID == prefClassID).FirstOrDefault().Name : "";
+        }
+
+        public int CheckAvailableSkillPoints(ApplicationDbContext db, PlayerViewModel player)
+        {
+            int ModID = db.Classes.Where(x => x.ClassID == player.Player.ClassID).FirstOrDefault().ModifiersID;
+            int SkillPointsModifier = db.ModifierSets.Where(x => x.ModifierID == ModID).FirstOrDefault().SkillPointsModifier;
+            int INTCheckModifier = (player.Modifiers.INTModifier % 2 == 0) ? (player.Modifiers.INTModifier-10)/2 : (player.Modifiers.INTModifier-1-10)/2;
+
+            return (SkillPointsModifier + INTCheckModifier) * 4;
         }
     }
 }

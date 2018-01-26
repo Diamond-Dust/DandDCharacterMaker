@@ -10,5 +10,12 @@ namespace CharacterMaker.Models
         public int SkillID { get; set; }
         public string Name { get; set; }
         public string KeyAbility { get; set; }
+
+        public SkillModel(int ID, string name, string ability)
+        {
+            SkillID = ID;
+            Name = name;
+            KeyAbility = ability;
+        }
     }
 }
