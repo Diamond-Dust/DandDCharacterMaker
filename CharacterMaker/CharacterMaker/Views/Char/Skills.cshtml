@@ -15,6 +15,7 @@
             <div class="col-lg-6">
                 <span class="col-lg-3">@Model.Skills[i].Name</span>
                 <span class="col-lg-2">@Model.Skills[i].KeyAbility</span>
+                @Html.HiddenFor(m => m.Skills[i])
                 @Html.HiddenFor(m => m.Skills[i].Name)
                 @Html.HiddenFor(m => m.Skills[i].SkillID)
                 @Html.HiddenFor(m => m.Skills[i].KeyAbility)
