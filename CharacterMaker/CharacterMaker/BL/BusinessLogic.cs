@@ -127,8 +127,10 @@ namespace CharacterMaker.BL
             int ModID = db.Classes.Where(x => x.ClassID == player.Player.ClassID).FirstOrDefault().ModifiersID;
             int SkillPointsModifier = db.ModifierSets.Where(x => x.ModifierID == ModID).FirstOrDefault().SkillPointsModifier;
             int INTCheckModifier = (player.Modifiers.INTModifier % 2 == 0) ? (player.Modifiers.INTModifier-10)/2 : (player.Modifiers.INTModifier-1-10)/2;
+            int AddModID = db.Races.Where(x => x.RaceID == player.Player.RaceID).FirstOrDefault().ModifiersID;
+            int Additional = db.ModifierSets.Where(x => x.ModifierID == AddModID).FirstOrDefault().BonusSkillPoints;
 
-            return (SkillPointsModifier + INTCheckModifier) * 4;
+            return (SkillPointsModifier + INTCheckModifier) * 4 + Additional;
         }
     }
 }

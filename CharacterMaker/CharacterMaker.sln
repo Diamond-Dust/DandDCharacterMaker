@@ -8,7 +8,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DBCreate", "DBCreate", "{6FEBAF2C-E7AC-4F66-A18D-0820BCBCAB64}"
 	ProjectSection(SolutionItems) = preProject
 		DandD.sql = DandD.sql
-		..\..\..\..\..\script2.sql = ..\..\..\..\..\script2.sql
+		..\..\..\..\..\DnD.sql = ..\..\..\..\..\DnD.sql
 	EndProjectSection
 EndProject
 Global

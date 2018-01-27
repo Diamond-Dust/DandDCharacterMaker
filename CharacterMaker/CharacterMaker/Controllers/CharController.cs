@@ -106,11 +106,11 @@ namespace CharacterMaker.Controllers
             _player.Skills.SkillLevel = skills.SkillValues.ToArray();
 
             //SkillsViewModel skills = new SkillsViewModel(_dbContext);
-
+            FeatsViewModel feats = new FeatsViewModel(_dbContext);
 
             this.SharedSession["PassModels"] = _player;
 
-            return View();
+            return View(feats);
         }
     }
 }

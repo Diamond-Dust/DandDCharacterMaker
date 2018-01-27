@@ -16,5 +16,14 @@ namespace CharacterMaker.Models
         public string Description { get; set; }
 
         public bool CanStack { get; set; }
+
+        public FeatModel(int featID, string name, string description, bool canStack, int modifiers)
+        {
+            FeatID = featID;
+            Name = name;
+            ModifiersID = modifiers;
+            Description = description;
+            CanStack = canStack;
+    }
     }
 }
