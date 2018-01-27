@@ -5,8 +5,79 @@
 }
 
 <h2>@ViewBag.Title</h2>
+<h4>Feats left: @Model.AvalaiblePoints</h4>
 
 @using (Html.BeginForm("Finalise", "Char", FormMethod.Post))
 {
-
+    for(int i = 0; i < Model.Feats.Count(); i++)
+    {
+        if (Model.Feats[i].CanStack)
+        {
+            <div class="row">
+                <div class="col-lg-12">
+                    <span class="col-lg-3">@Model.Feats[i].Name</span>
+                    <span class="col-lg-5">@Model.Feats[i].Description</span>
+                    @Html.HiddenFor(m => m.Feats[i].FeatID)
+                    @Html.EditorFor(m => m.Feats[i].Value, new { htmlAttributes = new { @min = "0", @class = "form-control col-lg-2" } })
+                </div>
+            </div>
+        }
+        else
+        {
+            <div class="JustifyAround">
+                @Html.HiddenFor(m => m.Feats[i].FeatID)
+                @Html.HiddenFor(m => m.Feats[i].Value)
+                <span class="col-lg-3">@Model.Feats[i].Name</span>
+                <span class="col-lg-9">@Model.Feats[i].Description</span>
+            </div>
+        }
+    }
+    <div class="JustifyAround">
+        <input type="hidden" class="btn btn-primary btn-lg SUBM" value="Accept Feats" />
+    </div>
 }
+
+<script>
+    $(function() {
+        $('.JustifyAround:not(:last)').click(function () {
+            var Check = $(this).children().eq(1).val();
+            if(Check == 1)
+            {
+                $(this).children().eq(1).val(0);
+                $(this).children().eq(2).children().first().unwrap();
+                $(this).children().eq(3).children().first().unwrap();
+                $(this).children().eq(2).toggleClass("col-lg-3");
+                $(this).children().eq(3).toggleClass("col-lg-9");
+            }
+            else
+            {
+                $(this).children().eq(1).val(1);
+                $(this).children().eq(2).toggleClass("col-lg-3");
+                $(this).children().eq(2).wrap( "<strong></strong>" );
+                $(this).children().eq(2).addClass("col-lg-3");
+                $(this).children().eq(3).toggleClass("col-lg-9");
+                $(this).children().eq(3).wrap( "<strong></strong>" );
+                $(this).children().eq(3).addClass("col-lg-9");
+            }
+        });
+        $(".text-box, .JustifyAround").click(SumSkills);
+    });
+
+    function SumSkills(){
+        var sumOfSkillPoints = 0;
+        $(".text-box").each(function(){
+            sumOfSkillPoints +=  parseInt($(this).val());
+        });
+        $(".JustifyAround:not(:last)").each(function(){
+            sumOfSkillPoints +=  parseInt($(this).children().eq(1).val());
+        });
+
+        var btnType = sumOfSkillPoints == @Model.AvalaiblePoints;
+        if(btnType)
+            $(".SUBM").first().attr("type", "submit");
+        else
+            $(".SUBM").first().attr("type", "hidden");
+        $("h4").first().text("Feats left: " + (@Model.AvalaiblePoints - sumOfSkillPoints));
+    }
+
+</script>

@@ -104,6 +104,16 @@ namespace CharacterMaker.BL
             return StatArray;
         }
 
+        public void UpdateDetails(ApplicationDbContext db, DetailsViewModel details)
+        {
+            var Alignments = db.Alignments.ToList();
+            foreach (var i in Alignments)
+                details.Alignments.Add(i.Name);
+            var Deities = db.Deities.ToList();
+            foreach (var i in Deities)
+                details.Deities.Add(i.Name);
+        }
+
         public void PlayerUpdateRace(ApplicationDbContext db, PlayerModel player, int raceID)
         {
             var RID = db.Races.Where(x => x.RaceID == raceID).FirstOrDefault().RaceID;
@@ -129,8 +139,17 @@ namespace CharacterMaker.BL
             int INTCheckModifier = (player.Modifiers.INTModifier % 2 == 0) ? (player.Modifiers.INTModifier-10)/2 : (player.Modifiers.INTModifier-1-10)/2;
             int AddModID = db.Races.Where(x => x.RaceID == player.Player.RaceID).FirstOrDefault().ModifiersID;
             int Additional = db.ModifierSets.Where(x => x.ModifierID == AddModID).FirstOrDefault().BonusSkillPoints;
+            int PointPerLevel = (SkillPointsModifier + INTCheckModifier>0) ? SkillPointsModifier + INTCheckModifier : 1;
 
-            return (SkillPointsModifier + INTCheckModifier) * 4 + Additional;
+
+            return (PointPerLevel) * 4 + Additional;
+        }
+        public int CheckAvailableFeatPoints(ApplicationDbContext db, PlayerViewModel player)
+        {
+            int AddModID = db.Races.Where(x => x.RaceID == player.Player.RaceID).FirstOrDefault().ModifiersID;
+            int Additional = db.ModifierSets.Where(x => x.ModifierID == AddModID).FirstOrDefault().BonusFeats;
+
+            return 1 + Additional;
         }
     }
 }
