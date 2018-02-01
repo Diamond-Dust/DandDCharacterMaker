@@ -10,6 +10,8 @@ namespace CharacterMaker.Models
         public PlayerModel Player { get; set; }
         public RollModel Rolls { get; set; }
         public ModifierModel Modifiers { get; set; }
+        public SkillLevelModel Skills { get; set; }
+        public FeatLevelModel Feats { get; set; }
 
         public PlayerViewModel()
         {

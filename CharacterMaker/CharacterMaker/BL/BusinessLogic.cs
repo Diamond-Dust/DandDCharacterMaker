@@ -58,7 +58,7 @@ namespace CharacterMaker.BL
                     Highest = roll.SumOfRolls[i];
 
                 currentCheckedSum = (roll.SumOfRolls[i] % 2 == 0) ? roll.SumOfRolls[i] : roll.SumOfRolls[i]-1;
-
+                currentCheckedSum -= 10;
                 modifierSum = currentCheckedSum / 2;
             }
 
@@ -104,6 +104,16 @@ namespace CharacterMaker.BL
             return StatArray;
         }
 
+        public void UpdateDetails(ApplicationDbContext db, DetailsViewModel details)
+        {
+            var Alignments = db.Alignments.ToList();
+            foreach (var i in Alignments)
+                details.Alignments.Add(i.Name);
+            var Deities = db.Deities.ToList();
+            foreach (var i in Deities)
+                details.Deities.Add(i.Name);
+        }
+
         public void PlayerUpdateRace(ApplicationDbContext db, PlayerModel player, int raceID)
         {
             var RID = db.Races.Where(x => x.RaceID == raceID).FirstOrDefault().RaceID;
@@ -120,6 +130,26 @@ namespace CharacterMaker.BL
             int? prefClassID = db.Races.Where(x => x.RaceID == raceID).FirstOrDefault()?.PreferredClassID;
 
             classes.PreferredClass = (prefClassID != null) ? db.Classes.Where(x=>x.ClassID == prefClassID).FirstOrDefault().Name : "";
+        }
+
+        public int CheckAvailableSkillPoints(ApplicationDbContext db, PlayerViewModel player)
+        {
+            int ModID = db.Classes.Where(x => x.ClassID == player.Player.ClassID).FirstOrDefault().ModifiersID;
+            int SkillPointsModifier = db.ModifierSets.Where(x => x.ModifierID == ModID).FirstOrDefault().SkillPointsModifier;
+            int INTCheckModifier = (player.Modifiers.INTModifier % 2 == 0) ? (player.Modifiers.INTModifier-10)/2 : (player.Modifiers.INTModifier-1-10)/2;
+            int AddModID = db.Races.Where(x => x.RaceID == player.Player.RaceID).FirstOrDefault().ModifiersID;
+            int Additional = db.ModifierSets.Where(x => x.ModifierID == AddModID).FirstOrDefault().BonusSkillPoints;
+            int PointPerLevel = (SkillPointsModifier + INTCheckModifier>0) ? SkillPointsModifier + INTCheckModifier : 1;
+
+
+            return (PointPerLevel) * 4 + Additional;
+        }
+        public int CheckAvailableFeatPoints(ApplicationDbContext db, PlayerViewModel player)
+        {
+            int AddModID = db.Races.Where(x => x.RaceID == player.Player.RaceID).FirstOrDefault().ModifiersID;
+            int Additional = db.ModifierSets.Where(x => x.ModifierID == AddModID).FirstOrDefault().BonusFeats;
+
+            return 1 + Additional;
         }
     }
 }

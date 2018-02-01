@@ -42,10 +42,56 @@
     @Html.HiddenFor(m => m.CHAModifier, new { @class = "CHAM" });
 
     <div class="JustifyAround">
-        <input type="hidden" class="btn btn-primary btn-lg SUBM" value="Accept Abilities")'" />
+        <input type="hidden" class="btn btn-primary btn-lg SUBM" value="Accept Abilities" />
     </div>
 
 }
+
+<script>
+          $( function() {
+              $(".draggable").each(function () {
+                  $(this).draggable({
+                      start: function (event, ui) {
+                            if ($(this).parent("th").children().length == 2)
+                                $(this).parent("th").removeClass("ui-state-highlight");
+                            else if ($(this).parent("th").children().length == 3)
+                                $(this).parent("th").addClass("ui-state-highlight");
+                      },
+                      helper: "clone",
+                      containment: "document"
+                  });
+              });
+              $(".droppable").each(function (event, ui) {
+                  $(this).droppable({
+                      drop: function (event, ui) {
+                            if(($(this).children().length == 0) || ($.contains($(this).get(0), $(".ui-draggable-dragging").first().get(0))))
+                                $(this).addClass("ui-state-highlight");
+                            else
+                                $(this).removeClass("ui-state-highlight");
+                            console.log("Przed");
+                            console.log($(".droppable .draggable"));
+                            console.log($(".droppable .draggable:only-child"));
+                            ui.draggable.appendTo($(this));
+                            console.log("Po");
+                            console.log($(".droppable .draggable"));
+                            console.log($(".droppable .draggable:only-child"));
+                            if (($(".droppable .draggable:only-child").length == 6) || (($(".droppable .draggable:only-child").length == 5) && ($(".droppable .draggable").length == 7)))
+                            {
+                                $(".STRM").first().val( $(".droppable .draggable").eq(0).text() );
+                                $(".DEXM").first().val( $(".droppable .draggable").eq(1).text() );
+                                $(".CONM").first().val( $(".droppable .draggable").eq(2).text() );
+                                $(".INTM").first().val( $(".droppable .draggable").eq(3).text() );
+                                $(".WISM").first().val( $(".droppable .draggable").eq(4).text() );
+                                $(".CHAM").first().val( $(".droppable .draggable").eq(5).text() );
+                                $(".SUBM").first().attr("type", "submit");
+                            }
+                            else
+                                $(".SUBM").first().attr("type", "hidden");
+                        }
+                  });
+              });
+            });
+</script>
 
 
 

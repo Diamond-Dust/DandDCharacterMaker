@@ -63,3 +63,24 @@ textarea {
     display: flex;
     justify-content: space-around;
 }
+
+.ui-widget-header {
+    border: 1px solid saddlebrown;
+    background: darkkhaki;
+}
+
+.ui-state-highlight, .ui-widget-content .ui-state-highlight, .ui-widget-header .ui-state-highlight {
+    border: 1px solid #dad55e;
+    background: #fffa90;
+    color: #777620;
+}
+
+.field-validation-error {
+   color: #C1372A !important;
+   display: block;
+   font-weight: normal !important;
+}
+
+.bootstrap-select {
+    margin-bottom: 2vh;
+}

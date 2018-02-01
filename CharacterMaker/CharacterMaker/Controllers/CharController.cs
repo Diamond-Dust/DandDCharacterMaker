@@ -89,9 +89,49 @@ namespace CharacterMaker.Controllers
         {
             _player.Modifiers = abilities;
 
-
+            SkillsViewModel skills = new SkillsViewModel(_dbContext);
+            skills.AvalaiblePoints = _businessLogic.CheckAvailableSkillPoints(_dbContext, _player);
 
             this.SharedSession["PassModels"] = _player;
+
+            return View(skills);
+        }
+
+        [HttpPost]
+        public ActionResult Feats(SkillsViewModel skillz)
+        {
+            _player.Skills = new SkillLevelModel(skillz.Skills.Count());
+            for(int i=0; i< skillz.Skills.Count(); i++)
+                _player.Skills.SkillID[i] = skillz.Skills[i].SkillID;
+            _player.Skills.SkillLevel = skillz.Skills.Select(x => x.Value).ToArray();
+            
+            FeatsViewModel feats = new FeatsViewModel(_dbContext);
+            feats.AvalaiblePoints = _businessLogic.CheckAvailableFeatPoints(_dbContext, _player);
+
+            this.SharedSession["PassModels"] = _player;
+
+            return View(feats);
+        }
+
+        [HttpPost]
+        public ActionResult Finalise(FeatsViewModel featz)
+        {
+            _player.Feats = new FeatLevelModel(featz.Feats.Count());
+            for (int i = 0; i < featz.Feats.Count(); i++)
+                _player.Skills.SkillID[i] = featz.Feats[i].FeatID;
+            _player.Skills.SkillLevel = featz.Feats.Select(x => x.Value).ToArray();
+
+            DetailsViewModel details = new DetailsViewModel();
+            _businessLogic.UpdateDetails(_dbContext, details);
+
+            this.SharedSession["PassModels"] = _player;
+
+            return View(details);
+        }
+
+        [HttpPost]
+        public ActionResult End(DetailsModel details)
+        {
 
             return View();
         }

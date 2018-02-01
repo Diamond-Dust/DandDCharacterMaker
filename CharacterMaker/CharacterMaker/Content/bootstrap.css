@@ -315,7 +315,7 @@ body {
   font-size: 14px;
   line-height: 1.428571429;
   color: #333333;
-  background-color: #ffffff;
+  background-color: PaleGoldenrod;
 }
 
 input,
@@ -386,7 +386,7 @@ hr {
   margin-top: 20px;
   margin-bottom: 20px;
   border: 0;
-  border-top: 1px solid #eeeeee;
+  border-top: 1px solid SaddleBrown;
 }
 
 .sr-only {
@@ -1427,12 +1427,12 @@ th {
   padding: 8px;
   line-height: 1.428571429;
   vertical-align: top;
-  border-top: 1px solid #dddddd;
+  border-top: 1px groove SaddleBrown;
 }
 
 .table thead > tr > th {
   vertical-align: bottom;
-  border-bottom: 2px solid #dddddd;
+  border-bottom: 2px solid SaddleBrown;
 }
 
 .table caption + thead tr:first-child th,
@@ -2092,9 +2092,9 @@ fieldset[disabled] .btn-default.active {
 }
 
 .btn-primary {
-  color: #ffffff;
-  background-color: #428bca;
-  border-color: #357ebd;
+  color: Black;
+  background-color: DarkKhaki;
+  border-color: Khaki;
 }
 
 .btn-primary:hover,
@@ -2102,9 +2102,9 @@ fieldset[disabled] .btn-default.active {
 .btn-primary:active,
 .btn-primary.active,
 .open .dropdown-toggle.btn-primary {
-  color: #ffffff;
-  background-color: #3276b1;
-  border-color: #285e8e;
+  color: Black;
+  background-color: Khaki;
+  border-color: DarkKhaki;
 }
 
 .btn-primary:active,
@@ -4503,12 +4503,12 @@ textarea.input-group-sm > .input-group-btn > .btn {
 }
 
 .navbar-inverse {
-  background-color: #222222;
-  border-color: #080808;
+  background-color: DarkRed;
+  border-color: firebrick;
 }
 
 .navbar-inverse .navbar-brand {
-  color: #999999;
+  color: WhiteSmoke;
 }
 
 .navbar-inverse .navbar-brand:hover,
@@ -4522,7 +4522,7 @@ textarea.input-group-sm > .input-group-btn > .btn {
 }
 
 .navbar-inverse .navbar-nav > li > a {
-  color: #999999;
+  color: WhiteSmoke;
 }
 
 .navbar-inverse .navbar-nav > li > a:hover,
@@ -4936,7 +4936,7 @@ a.list-group-item.active > .badge,
   font-weight: 200;
   line-height: 2.1428571435;
   color: inherit;
-  background-color: #eeeeee;
+  background-color: #DAC570;
 }
 
 .jumbotron h1 {

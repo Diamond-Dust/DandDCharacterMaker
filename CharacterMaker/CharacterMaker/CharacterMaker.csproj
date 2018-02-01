@@ -220,6 +220,11 @@
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\ClassesViewModel.cs" />
     <Compile Include="Models\ClassModel.cs" />
+    <Compile Include="Models\DetailsModel.cs" />
+    <Compile Include="Models\DetailsViewModel.cs" />
+    <Compile Include="Models\FeatLevelModel.cs" />
+    <Compile Include="Models\FeatModel.cs" />
+    <Compile Include="Models\FeatsViewModel.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\ModifierModel.cs" />
@@ -228,6 +233,7 @@
     <Compile Include="Models\RaceModel.cs" />
     <Compile Include="Models\RacesViewModel.cs" />
     <Compile Include="Models\RollModel.cs" />
+    <Compile Include="Models\SkillLevelModel.cs" />
     <Compile Include="Models\SkillModel.cs" />
     <Compile Include="Models\SkillsViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -259,7 +265,9 @@
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\_references.js" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
@@ -297,6 +305,10 @@
     <Content Include="Views\Char\Class.cshtml" />
     <Content Include="Views\Char\Race.cshtml" />
     <Content Include="Views\Char\Abilities.cshtml" />
+    <Content Include="Views\Char\Skills.cshtml" />
+    <Content Include="Views\Char\Feats.cshtml" />
+    <Content Include="Views\Char\Finalise.cshtml" />
+    <Content Include="Views\Char\End.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

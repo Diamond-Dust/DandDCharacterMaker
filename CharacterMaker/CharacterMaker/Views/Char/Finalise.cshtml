@@ -1,0 +1,72 @@
+﻿@model CharacterMaker.Models.DetailsViewModel
+@{
+    ViewBag.Title = "Finalise";
+}
+
+<h2>@ViewBag.Title</h2>
+
+@using (Html.BeginForm("End", "Char", FormMethod.Post))
+{
+    @Html.HiddenFor(m => m.DetailSet.DeityID)
+    @Html.HiddenFor(m => m.DetailSet.AlignmentID)
+
+    <div class="row">
+        <div class="deity col-md-6 selectContainer">
+            <select class="selectpicker" name="deity" title="Choose deity">
+                @for(int i=0; i < Model.Deities.Count(); i++)
+                {
+                    <option value="@i">@Model.Deities[i]</option>
+                }
+            </select>
+        </div>
+        <div class="alignment col-md-6 selectContainer">
+            <select class="selectpicker" name="alignment" title="Choose alignment">
+                @for (int i = 0; i < Model.Alignments.Count(); i++)
+                {
+                    <option value="@i">@Model.Alignments[i]</option>
+                }
+            </select>
+        </div>
+    </div>
+    <div class="row">
+        <label class="col-md-6"><span class="col-md-2">Name: </span>@Html.EditorFor(m => m.DetailSet.Name, new { htmlAttributes = new { @class = "col-md-10" } })</label>
+        <label class="col-md-1">@Html.RadioButtonFor(m => m.DetailSet.Gender, "Male")Male</label>
+        <label class="col-md-1">@Html.RadioButtonFor(m => m.DetailSet.Gender, "Female")Female</label>
+        @Html.ValidationMessageFor(m => m.DetailSet.Gender)
+        @Html.ValidationMessageFor(m => m.DetailSet.Name)
+        <div class="col-md-4"></div>
+    </div>
+
+    <div class="JustifyAround">
+        <input type="hidden" class="btn btn-primary btn-lg SUBM" value="Finalise" />
+    </div>
+}
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/css/bootstrap-select.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/js/bootstrap-select.js"></script>
+<script src='@Url.Content("~/Scripts/jquery.validate.js")' type='text/javascript'>         </script>
+<script src='@Url.Content("~/Scripts/jquery.validate.unobtrusive.js")' type='text/javascript'></script>
+<script>
+    function CheckDropdownDeity(event, clickedIndex, newValue, oldValue) {
+        $("input[name='DetailSet.DeityID']").first().val(event.currentTarget.outerText);
+        if (($("input[name='DetailSet.DeityID']").first().val() != "") && ($("input[name='DetailSet.AlignmentID']").first().val() != ""))
+            $(".JustifyAround input").attr("type", "submit");
+    }
+    function CheckDropdownAlignment(event, clickedIndex, newValue, oldValue) {
+        $("input[name='DetailSet.AlignmentID']").first().val(event.currentTarget.outerText);
+        if (($("input[name='DetailSet.DeityID']").first().val() != "") && ($("input[name='DetailSet.AlignmentID']").first().val() != ""))
+            $(".JustifyAround input").attr("type", "submit");
+    }
+
+    $(
+        $('.deity').on('changed.bs.select', CheckDropdownDeity),
+        $('.alignment').on('changed.bs.select', CheckDropdownAlignment),
+        $("input[name='DetailSet.DeityID']").first().val(""),
+        $("input[name='DetailSet.AlignmentID']").first().val("")
+        
+        //<span class="field-validation-error" data-valmsg-for="DetailSet.Name" data-valmsg-replace="true">
+    )
+
+    
+
+</script>
