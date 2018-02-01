@@ -308,6 +308,7 @@
     <Content Include="Views\Char\Skills.cshtml" />
     <Content Include="Views\Char\Feats.cshtml" />
     <Content Include="Views\Char\Finalise.cshtml" />
+    <Content Include="Views\Char\End.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

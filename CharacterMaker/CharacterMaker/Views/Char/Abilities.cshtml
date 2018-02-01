@@ -63,13 +63,19 @@
               });
               $(".droppable").each(function (event, ui) {
                   $(this).droppable({
-                        drop: function (event, ui) {
+                      drop: function (event, ui) {
                             if(($(this).children().length == 0) || ($.contains($(this).get(0), $(".ui-draggable-dragging").first().get(0))))
                                 $(this).addClass("ui-state-highlight");
                             else
                                 $(this).removeClass("ui-state-highlight");
-                            ui.draggable.appendTo($(this))
-                            if($(".droppable .draggable:only-child").length == 6)
+                            console.log("Przed");
+                            console.log($(".droppable .draggable"));
+                            console.log($(".droppable .draggable:only-child"));
+                            ui.draggable.appendTo($(this));
+                            console.log("Po");
+                            console.log($(".droppable .draggable"));
+                            console.log($(".droppable .draggable:only-child"));
+                            if (($(".droppable .draggable:only-child").length == 6) || (($(".droppable .draggable:only-child").length == 5) && ($(".droppable .draggable").length == 7)))
                             {
                                 $(".STRM").first().val( $(".droppable .draggable").eq(0).text() );
                                 $(".DEXM").first().val( $(".droppable .draggable").eq(1).text() );
@@ -79,6 +85,8 @@
                                 $(".CHAM").first().val( $(".droppable .draggable").eq(5).text() );
                                 $(".SUBM").first().attr("type", "submit");
                             }
+                            else
+                                $(".SUBM").first().attr("type", "hidden");
                         }
                   });
               });
