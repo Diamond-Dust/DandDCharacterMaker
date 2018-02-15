@@ -1420,14 +1420,21 @@ th {
 
 .table thead > tr > th,
 .table tbody > tr > th,
-.table tfoot > tr > th,
+.table tfoot > tr > th {
+  padding: 8px;
+  line-height: 1.428571429;
+  vertical-align: top;
+  border-top: 1px groove SaddleBrown;
+}
+
 .table thead > tr > td,
 .table tbody > tr > td,
 .table tfoot > tr > td {
   padding: 8px;
   line-height: 1.428571429;
   vertical-align: top;
-  border-top: 1px groove SaddleBrown;
+  border-top: none;
+  text-align: center;
 }
 
 .table thead > tr > th {

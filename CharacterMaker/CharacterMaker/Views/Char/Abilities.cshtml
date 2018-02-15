@@ -1,15 +1,16 @@
-﻿@model CharacterMaker.Models.ModifierModel
+﻿@model CharacterMaker.Models.ModifierViewModel
 @{
     ViewBag.Title = "Abilities";
 }
 
-<h2>Abilities</h2>
+<h2>@ViewBag.Title</h2>
+<h4>Drag&Drop</h4>
 
 <table class="table">
     <tr>
         @for (int i = 0; i < ViewBag.Rolls.StatNames.Length; i++)
             {
-            <th>@ViewBag.Rolls.StatNames[i]</th>
+            <th title="" class="AbilityTooltip">@ViewBag.Rolls.StatNames[i]</th>
         }
     </tr>
     <tr>
@@ -34,12 +35,12 @@
 
 @using (@Html.BeginForm("Skills", "Char", FormMethod.Post))
 {
-    @Html.HiddenFor(m => m.STRModifier, new { @class = "STRM" });
-    @Html.HiddenFor(m => m.DEXModifier, new { @class = "DEXM" });
-    @Html.HiddenFor(m => m.CONModifier, new { @class = "CONM" });
-    @Html.HiddenFor(m => m.INTModifier, new { @class = "INTM" });
-    @Html.HiddenFor(m => m.WISModifier, new { @class = "WISM" });
-    @Html.HiddenFor(m => m.CHAModifier, new { @class = "CHAM" });
+    @Html.HiddenFor(m => m.Modifiers.STRModifier, new { @class = "STRM" });
+    @Html.HiddenFor(m => m.Modifiers.DEXModifier, new { @class = "DEXM" });
+    @Html.HiddenFor(m => m.Modifiers.CONModifier, new { @class = "CONM" });
+    @Html.HiddenFor(m => m.Modifiers.INTModifier, new { @class = "INTM" });
+    @Html.HiddenFor(m => m.Modifiers.WISModifier, new { @class = "WISM" });
+    @Html.HiddenFor(m => m.Modifiers.CHAModifier, new { @class = "CHAM" });
 
     <div class="JustifyAround">
         <input type="hidden" class="btn btn-primary btn-lg SUBM" value="Accept Abilities" />
@@ -48,49 +49,71 @@
 }
 
 <script>
-          $( function() {
-              $(".draggable").each(function () {
-                  $(this).draggable({
-                      start: function (event, ui) {
-                            if ($(this).parent("th").children().length == 2)
-                                $(this).parent("th").removeClass("ui-state-highlight");
-                            else if ($(this).parent("th").children().length == 3)
-                                $(this).parent("th").addClass("ui-state-highlight");
-                      },
-                      helper: "clone",
-                      containment: "document"
-                  });
-              });
-              $(".droppable").each(function (event, ui) {
-                  $(this).droppable({
-                      drop: function (event, ui) {
-                            if(($(this).children().length == 0) || ($.contains($(this).get(0), $(".ui-draggable-dragging").first().get(0))))
-                                $(this).addClass("ui-state-highlight");
-                            else
-                                $(this).removeClass("ui-state-highlight");
-                            console.log("Przed");
-                            console.log($(".droppable .draggable"));
-                            console.log($(".droppable .draggable:only-child"));
-                            ui.draggable.appendTo($(this));
-                            console.log("Po");
-                            console.log($(".droppable .draggable"));
-                            console.log($(".droppable .draggable:only-child"));
-                            if (($(".droppable .draggable:only-child").length == 6) || (($(".droppable .draggable:only-child").length == 5) && ($(".droppable .draggable").length == 7)))
-                            {
-                                $(".STRM").first().val( $(".droppable .draggable").eq(0).text() );
-                                $(".DEXM").first().val( $(".droppable .draggable").eq(1).text() );
-                                $(".CONM").first().val( $(".droppable .draggable").eq(2).text() );
-                                $(".INTM").first().val( $(".droppable .draggable").eq(3).text() );
-                                $(".WISM").first().val( $(".droppable .draggable").eq(4).text() );
-                                $(".CHAM").first().val( $(".droppable .draggable").eq(5).text() );
-                                $(".SUBM").first().attr("type", "submit");
-                            }
-                            else
-                                $(".SUBM").first().attr("type", "hidden");
-                        }
-                  });
-              });
+    var infos = [];
+    @foreach(var i in Model.AbilitiesInfo)
+    {
+        @:infos.push("@Html.Raw(i)");
+    }
+
+    function ToolTip(index) {
+        $(this).tooltip({
+            content: infos[index]
+        })
+    }
+
+    function Dragging() {
+        $(".draggable").each(function () {
+            $(this).draggable({
+                start: function (event, ui) {
+                    if ($(this).parent("th").children().length == 2)
+                        $(this).parent("th").removeClass("ui-state-highlight");
+                    else if ($(this).parent("th").children().length == 3)
+                        $(this).parent("th").addClass("ui-state-highlight");
+                    if (!(($(".droppable .draggable:only-child").length == 6) || (($(".droppable .draggable:only-child").length == 5) && ($(".droppable .draggable").length == 7))))
+                        $(".SUBM").first().attr("type", "hidden");
+                },
+                helper: "clone",
+                containment: "document",
+                cursorAt: {
+                    top: 20,
+                    left: 8
+                }
             });
+        });
+        $(".droppable").each(function (event, ui) {
+            $(this).droppable({
+                drop: function (event, ui) {
+                    if(($(this).children().length == 0) || ($.contains($(this).get(0), $(".ui-draggable-dragging").first().get(0))))
+                        $(this).addClass("ui-state-highlight");
+                    else
+                        $(this).removeClass("ui-state-highlight");
+                    console.log("Przed");
+                    console.log($(".droppable .draggable"));
+                    console.log($(".droppable .draggable:only-child"));
+                    ui.draggable.appendTo($(this));
+                    console.log("Po");
+                    console.log($(".droppable .draggable"));
+                    console.log($(".droppable .draggable:only-child"));
+                    if (($(".droppable .draggable:only-child").length == 6) || (($(".droppable .draggable:only-child").length == 5) && ($(".droppable .draggable").length == 7)))
+                    {
+                        $(".STRM").first().val( $(".droppable .draggable").eq(0).text() );
+                        $(".DEXM").first().val( $(".droppable .draggable").eq(1).text() );
+                        $(".CONM").first().val( $(".droppable .draggable").eq(2).text() );
+                        $(".INTM").first().val( $(".droppable .draggable").eq(3).text() );
+                        $(".WISM").first().val( $(".droppable .draggable").eq(4).text() );
+                        $(".CHAM").first().val( $(".droppable .draggable").eq(5).text() );
+                        $(".SUBM").first().attr("type", "submit");
+                    }
+                    else
+                        $(".SUBM").first().attr("type", "hidden");
+                }
+            });
+        });
+    }
+    $( 
+        Dragging(),
+        $(".AbilityTooltip").each(ToolTip)
+    );
 </script>
 
 

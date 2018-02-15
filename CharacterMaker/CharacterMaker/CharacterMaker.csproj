@@ -192,15 +192,20 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ADO\AbilityInfo.cs" />
     <Compile Include="ADO\Alignments.cs" />
     <Compile Include="ADO\Classes.cs" />
+    <Compile Include="ADO\ClassImgs.cs" />
+    <Compile Include="ADO\ClassTraits.cs" />
     <Compile Include="ADO\Deities.cs" />
     <Compile Include="ADO\Feats.cs" />
     <Compile Include="ADO\ItemCategories.cs" />
     <Compile Include="ADO\Items.cs" />
     <Compile Include="ADO\ModifierSets.cs" />
     <Compile Include="ADO\Player.cs" />
+    <Compile Include="ADO\RaceImgs.cs" />
     <Compile Include="ADO\Races.cs" />
+    <Compile Include="ADO\RaceTraits.cs" />
     <Compile Include="ADO\Skills.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
@@ -228,6 +233,8 @@
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\ModifierModel.cs" />
+    <Compile Include="Models\ModifierViewModel.cs" />
+    <Compile Include="Models\PlayerFinaliseModel.cs" />
     <Compile Include="Models\PlayerModel.cs" />
     <Compile Include="Models\PlayerViewModel.cs" />
     <Compile Include="Models\RaceModel.cs" />

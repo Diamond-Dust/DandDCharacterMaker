@@ -31,8 +31,11 @@ namespace CharacterMaker.Models
             return new ApplicationDbContext();
         }
 
+        public virtual DbSet<AbilityInfo> AbilityInfo { get; set; }
         public virtual DbSet<Alignments> Alignments { get; set; }
         public virtual DbSet<Classes> Classes { get; set; }
+        public virtual DbSet<ClassImgs> ClassImgs { get; set; }
+        public virtual DbSet<ClassTraits> ClassTraits { get; set; }
         public virtual DbSet<Deities> Deities { get; set; }
         public virtual DbSet<Feats> Feats { get; set; }
         public virtual DbSet<ItemCategories> ItemCategories { get; set; }
@@ -40,6 +43,8 @@ namespace CharacterMaker.Models
         public virtual DbSet<Items> Items { get; set; }
         public virtual DbSet<Player> Player { get; set; }
         public virtual DbSet<Races> Races { get; set; }
+        public virtual DbSet<RaceImgs> RaceImgs { get; set; }
+        public virtual DbSet<RaceTraits> RaceTraits { get; set; }
         public virtual DbSet<Skills> Skills { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
@@ -58,6 +63,11 @@ namespace CharacterMaker.Models
                 .HasMany(e => e.Races)
                 .WithOptional(e => e.Classes)
                 .HasForeignKey(e => e.PreferredClassID);
+
+            modelBuilder.Entity<Classes>()
+                .HasMany(e => e.ClassImgs)
+                .WithRequired(e => e.Classes)
+                .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<Deities>()
                 .HasMany(e => e.Player)
@@ -94,6 +104,16 @@ namespace CharacterMaker.Models
                 .HasMany(e => e.Races)
                 .WithRequired(e => e.ModifierSets)
                 .HasForeignKey(e => e.ModifiersID)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<Races>()
+                .HasMany(e => e.RaceImgs)
+                .WithRequired(e => e.Races)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<Races>()
+                .HasMany(e => e.RaceTraits)
+                .WithRequired(e => e.Races)
                 .WillCascadeOnDelete(false);
 
             base.OnModelCreating(modelBuilder);

@@ -1,7 +1,74 @@
-﻿
+﻿@model CharacterMaker.Models.PlayerViewModel
 @{
     ViewBag.Title = "End";
 }
 
-<h2>End</h2>
+<h2>@ViewBag.Title</h2>
 
+<table class="table">
+    <tr>
+        @for (int i = 0; i < Model.Rolls.StatNames.Length; i++)
+            {
+            <th title="" class="AbilityTooltip">@Model.Rolls.StatNames[i]</th>
+        }
+    </tr>
+    <tr>
+        <th>@Model.Modifiers.STRModifier</th>
+        <th>@Model.Modifiers.DEXModifier</th>
+        <th>@Model.Modifiers.CONModifier</th>
+        <th>@Model.Modifiers.INTModifier</th>
+        <th>@Model.Modifiers.WISModifier</th>
+        <th>@Model.Modifiers.CHAModifier</th>
+    </tr>
+    <tr>
+        @for (int i = 0; i < Model.Rolls.StatNames.Length; i++)
+            {
+            <td>@Model.Final.RaceModifiers[i]</td>
+        }
+    </tr>
+    <tr>
+        <th>@(Model.Modifiers.STRModifier+Model.Final.RaceModifiers[0])</th>
+        <th>@(Model.Modifiers.DEXModifier+Model.Final.RaceModifiers[1])</th>
+        <th>@(Model.Modifiers.CONModifier+Model.Final.RaceModifiers[2])</th>
+        <th>@(Model.Modifiers.INTModifier+Model.Final.RaceModifiers[3])</th>
+        <th>@(Model.Modifiers.WISModifier+Model.Final.RaceModifiers[4])</th>
+        <th>@(Model.Modifiers.CHAModifier+Model.Final.RaceModifiers[5])</th>
+    </tr>
+</table>
+
+
+
+<div class="JustifyAround">
+    <h4><strong>@Model.Final.Name</strong></h4>
+</div>
+<div class="JustifyAround">
+    <h4><strong>Gender: </strong>@Model.Final.Gender</h4>
+</div>
+<div class="JustifyAround">
+    <div class="JustifyAroundColumn">
+        <h4><strong>Deity: </strong>@Model.Final.Deity</h4>
+        <h4><strong>Race: </strong>@Model.Final.Race</h4>
+    </div>
+    <div class="JustifyAroundColumn">
+        <h4><strong>Alignment: </strong>@Model.Final.Alignment</h4>
+        <h4><strong>Class: </strong>@Model.Final.Class</h4>
+    </div>
+</div>
+
+<script>
+    var infos = [];
+    @foreach(var i in Model.AbilitiesInfo)
+    {
+        @:infos.push("@Html.Raw(i)");
+    }
+
+    function ToolTip(index) {
+        $(this).tooltip({
+            content: infos[index]
+        })
+    }
+
+    $(
+        $(".AbilityTooltip").each(ToolTip)
+    )
+</script>

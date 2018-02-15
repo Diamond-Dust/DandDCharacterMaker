@@ -40,7 +40,7 @@ namespace CharacterMaker.Controllers
             if (RaceID != null)
             {
                 _businessLogic.UpdateModifiers(_dbContext, races, (int)RaceID);
-                _businessLogic.PlayerUpdateRace(_dbContext, _player.Player, races.Races[(int)RaceID].GetRaceID());
+                _businessLogic.PlayerUpdateRace(_dbContext, _player.Player, races.Races[(int)RaceID].Name);
                 ViewBag.Radio = RaceID;
             }
             else
@@ -63,7 +63,7 @@ namespace CharacterMaker.Controllers
             if (ClassID != null)
             {
                 _businessLogic?.UpdateModifiers(_dbContext, classes, (int)ClassID);
-                _businessLogic.PlayerUpdateClass(_dbContext, _player.Player, classes.Classes[(int)ClassID].ClassID);
+                _businessLogic.PlayerUpdateClass(_dbContext, _player.Player, classes.Classes[(int)ClassID].Name);
                 ViewBag.Radio = ClassID;
             }
             else
@@ -76,18 +76,19 @@ namespace CharacterMaker.Controllers
 
         public ActionResult Abilities()
         {
+            ModifierViewModel modifiers = new ModifierViewModel(_dbContext);
             ViewBag.Rolls = _player.Rolls;
             ViewBag.StatModifiers = _businessLogic.UpdateModifiers(_dbContext, _player.Player.ClassID, _player.Player.RaceID);
 
             this.SharedSession["PassModels"] = _player;
 
-            return View();
+            return View(modifiers);
         }
 
         [HttpPost]
-        public ActionResult Skills(ModifierModel abilities)
+        public ActionResult Skills(ModifierViewModel abilities)
         {
-            _player.Modifiers = abilities;
+            _player.Modifiers = abilities.Modifiers;
 
             SkillsViewModel skills = new SkillsViewModel(_dbContext);
             skills.AvalaiblePoints = _businessLogic.CheckAvailableSkillPoints(_dbContext, _player);
@@ -130,10 +131,26 @@ namespace CharacterMaker.Controllers
         }
 
         [HttpPost]
-        public ActionResult End(DetailsModel details)
+        public ActionResult End(DetailsViewModel details)
         {
+            _businessLogic.CheckAlignmentAndDeityID(_dbContext, details.DetailSet.Deity, details.DetailSet.Alignment, _player.Player);
+            _player.Player.Gender = details.DetailSet.Gender.Trim();
+            _player.Player.Name = details.DetailSet.Name.Trim();
 
-            return View();
+            _player.Final = new PlayerFinaliseModel();
+            _player.Final.Name = _player.Player.Name;
+            _player.Final.Gender = _player.Player.Gender;
+            _player.Final.Class = _businessLogic.GetClassName(_dbContext, _player.Player.ClassID);
+            _player.Final.Race = _businessLogic.GetRaceName(_dbContext, _player.Player.RaceID);
+            _player.Final.Alignment = _businessLogic.GetAlignmentName(_dbContext, _player.Player.AlignmentID);
+            _player.Final.Deity = _businessLogic.GetDeityName(_dbContext, _player.Player.DeityID);
+            _player.Final.RaceModifiers = _businessLogic.GetRaceModifiers(_dbContext, _player.Player.RaceID);
+
+            _player.AbilitiesInfo = _businessLogic.GetAbilitiesInfo(_dbContext);
+
+            this.SharedSession["PassModels"] = _player;
+
+            return View(_player);
         }
     }
 }

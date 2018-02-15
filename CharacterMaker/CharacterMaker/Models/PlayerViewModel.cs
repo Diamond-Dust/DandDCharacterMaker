@@ -12,6 +12,8 @@ namespace CharacterMaker.Models
         public ModifierModel Modifiers { get; set; }
         public SkillLevelModel Skills { get; set; }
         public FeatLevelModel Feats { get; set; }
+        public PlayerFinaliseModel Final { get; set; }
+        public string[] AbilitiesInfo { get; set; }
 
         public PlayerViewModel()
         {

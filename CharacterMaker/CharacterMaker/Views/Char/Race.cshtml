@@ -2,6 +2,7 @@
 
 @{
     ViewBag.Title = "Race";
+    ViewBag.Index = 0;
 }
 
 <h2>@ViewBag.Title</h2>
@@ -12,7 +13,7 @@
         <tr>
             @for (int i = 0; i < ViewBag.Rolls.StatNames.Length; i++)
             {
-                <th>@ViewBag.Rolls.StatNames[i]</th>
+                <th title='' class="AbilityTooltip">@ViewBag.Rolls.StatNames[i]</th>
             }
         </tr>
         <tr>
@@ -24,28 +25,42 @@
     </table>
 
     <h4>Choose your race</h4>
-    <table class="table">
+    <table class="tableA">
+        <tr><th></th><th></th><th></th></tr>
         <tr>
-            <th>Race</th>
-            <th></th>
-            <th></th>
-            <th></th>
-        </tr>
-        <tr>
-            @for (int i = 0; i < Model.Races.Length; i++)
+            <td class="col-lg-5">
+                @if (ViewBag.Radio == 0)
+                {<label class="active-choice">@Model.Races[0].Name <input type="radio" name="raceChoice" class="radio" checked="checked" onclick="location.href='@Url.Action("Race", "Char", new { RaceID = 0 })'" /></label>}
+                else
+                {<label class="choice">@Model.Races[0].Name <input type="radio" name="raceChoice" class="radio" onclick="location.href='@Url.Action("Race", "Char", new { RaceID = 0 })'" /></label>}
+            </td>
+            @if ((ViewBag.Radio != -1) && (Model.AdditionalInfo[ViewBag.Radio].Count() > 0))
             {
-                <td>
-                    @Model.Races[i].Name
-                </td>
-                <td>
-                    @if (ViewBag.Radio == i)
-                        {<input type="radio" name="raceChoice" class="radio" checked="checked" onclick="location.href='@Url.Action("Race", "Char", new { RaceID = i })'" />}
-                    else
-                        {<input type = "radio" name = "raceChoice" class="radio" onclick="location.href='@Url.Action("Race", "Char", new { RaceID = i })'" />}
+                <td rowspan="@Model.Races.Length" colspan="2" class="col-lg-7">
+                    <div class="JustifyAroundColumn">
+                        <img src="@Model.AdditionalInfo[ViewBag.Radio][0]" />
+                        @for (int i = 1; i < Model.AdditionalInfo[ViewBag.Radio].Count(); i++)
+                        {
+                            <p>@Model.AdditionalInfo[ViewBag.Radio][i]</p>
+                        }
+                    </div>
                 </td>
             }
         </tr>
+
+        @for (int i = 1; i < Model.Races.Length; i++)
+            {
+            <tr>
+                <td class="col-lg-5">
+                    @if (ViewBag.Radio == i)
+                    {<label class="active-choice">@Model.Races[i].Name <input type="radio" name="raceChoice" class="radio" checked="checked" onclick="location.href='@Url.Action("Race", "Char", new { RaceID = i })'" /></label>}
+                    else
+                    {<label class="choice">@Model.Races[i].Name <input type="radio" name="raceChoice" class="radio" onclick="location.href='@Url.Action("Race", "Char", new { RaceID = i })'" /></label>}
+                </td>
+            </tr>
+        }
     </table>
+
     @if (ViewBag.Radio != -1)
     {
         <div class="JustifyAround">
@@ -53,3 +68,26 @@
         </div>
     }
 </div>
+
+<script>
+    var infos = [];
+    @foreach(var i in Model.AbilitiesInfo)
+    {
+        @:infos.push("@Html.Raw(i)");
+        }
+
+    function ToolTip(index) {
+        $(this).tooltip({
+            content: infos[index]
+        })
+    }
+    function ChoiceClick() {
+        $(this).toggleClass("choice");
+        $(this).toggleClass("active-choice");
+    }
+
+    $(
+        $(".choice").click(ChoiceClick),
+        $(".AbilityTooltip").each(ToolTip)
+    )
+</script>
