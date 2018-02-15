@@ -64,6 +64,33 @@ textarea {
     justify-content: space-around;
 }
 
+.JustifyAroundColumn {
+    display: flex;
+    justify-content: space-around;
+    flex-direction: column;
+    text-align: center;
+}
+
+.tableA {
+    width: 100%;
+}
+
+.tableA img {
+    max-width: 20vw;
+    max-height: 50vh;
+    bottom: 0;
+    left: 0;
+    margin: auto;
+    overflow: auto;
+    right: 0;
+    top: 0;
+}
+
+.tableA tr > td {
+    text-align: center;
+    border-top: none;
+}
+
 .ui-widget-header {
     border: 1px solid saddlebrown;
     background: darkkhaki;
@@ -83,4 +110,43 @@ textarea {
 
 .bootstrap-select {
     margin-bottom: 2vh;
+}
+
+.green.choice {
+    color: green;
+    border: 1px solid Khaki;
+    border-radius: 3vh;
+    line-height: 5vh;
+    background: darkkhaki;
+    width:100%;
+    height: 5vh;
+}
+.green.choice > input[type='radio'] {
+    display: none;
+}
+
+label[class='choice'] {
+    border: 1px solid Khaki;
+    border-radius: 3vh;
+    line-height: 5vh;
+    background: darkkhaki;
+    color: black;
+    width:100%;
+    height: 5vh;
+}
+label[class='choice'] > input[type='radio'] {
+    display: none;
+}
+
+label[class='active-choice'] {
+    border: 1px solid darkkhaki;
+    border-radius: 3vh;
+    line-height: 5vh;
+    background: khaki;
+    color: black;
+    width:100%;
+    height: 5vh;
+}
+label[class='active-choice'] > input[type='radio'] {
+    display: none;
 }

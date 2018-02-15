@@ -7,36 +7,61 @@
 
 <div>
     <h4>Choose your class</h4>
-    <hr />
-    <table class="table">
+    <table class="tableA">
+        <tr><th class="col-lg-6"></th><th class="col-lg-1"></th><th class="col-lg-5"></th></tr>
         <tr>
-            <th>Class</th>
-            <th></th>
+            @if ((ViewBag.Radio != -1) && (Model.AdditionalInfo[ViewBag.Radio].Count() > 0))
+            {
+                <td rowspan="@Model.Classes.Length">
+                    <div class="JustifyAroundColumn">
+                        <img src="@Model.AdditionalInfo[ViewBag.Radio][0]" />
+                        @for (int i = 1; i < Model.AdditionalInfo[ViewBag.Radio].Count(); i++)
+                        {
+                            <p>@Model.AdditionalInfo[ViewBag.Radio][i]</p>
+                        }
+                    </div>
+                </td>
+            }
+            else
+                {<td rowspan="@Model.Classes.Length"></td>}
+            <td></td>
+            <td>
+                @if (ViewBag.Radio == 0)
+                {<label class="active-choice">@Model.Classes[0].Name <input type="radio" name="raceChoice" class="radio" checked="checked" onclick="location.href='@Url.Action("Class", "Char", new { ClassID = 0 })'" /></label>}
+                else
+                {<label class="choice">@Model.Classes[0].Name <input type="radio" name="raceChoice" class="radio" onclick="location.href='@Url.Action("Class", "Char", new { ClassID = 0 })'" /></label>}
+            </td>
         </tr>
-        <tr>
-            @for (int i = 0; i < Model.Classes.Length; i++)
+            @for (int i = 1; i < Model.Classes.Length; i++)
             {
                 if (Model.Classes[i].Name == Model.PreferredClass)
                 {
-                    <td>
-                        <strong>@Model.Classes[i].Name</strong>
-                    </td>
+                    <tr>
+                        <td></td>
+                        <td>
+                            @if (ViewBag.Radio == i)
+                            {<label class="active-choice">@Model.Classes[i].Name<input type="radio" name="classChoice" class="radio" checked="checked" onclick="location.href='@Url.Action("Class", "Char", new { ClassID = i })'" /></label>}
+                            else
+                            {<label class="green choice">@Model.Classes[i].Name<input type="radio" name="classChoice" class="radio" onclick="location.href='@Url.Action("Class", "Char", new { ClassID = i })'" /></label>}
+                        </td>
+                    </tr>
                 }
                 else
                 {
-                    <td>
-                        @Model.Classes[i].Name
-                    </td>
+                    <tr>
+                        <td></td>
+                        <td>
+                            @if (ViewBag.Radio == i)
+                            {<label class="active-choice">@Model.Classes[i].Name<input type="radio" name="classChoice" class="radio" checked="checked" onclick="location.href='@Url.Action("Class", "Char", new { ClassID = i })'" /></label>}
+                            else
+                            {<label class="choice">@Model.Classes[i].Name<input type="radio" name="classChoice" class="radio" onclick="location.href='@Url.Action("Class", "Char", new { ClassID = i })'" /></label>}
+                        </td>
+                    </tr>
                 }
-                <td>
-                    @if (ViewBag.Radio == i)
-                    {<input type="radio" name="classChoice" class="radio" checked="checked" onclick="location.href='@Url.Action("Class", "Char", new { ClassID = i })'" />}
-                    else
-                    {<input type="radio" name="classChoice" class="radio" onclick="location.href='@Url.Action("Class", "Char", new { ClassID = i })'" />}
-                </td>
+
             }
-        </tr>
     </table>
+
     @if (ViewBag.Radio != -1)
     {
         <div class="JustifyAround">

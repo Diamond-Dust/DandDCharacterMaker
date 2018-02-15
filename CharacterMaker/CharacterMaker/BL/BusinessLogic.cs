@@ -114,14 +114,14 @@ namespace CharacterMaker.BL
                 details.Deities.Add(i.Name);
         }
 
-        public void PlayerUpdateRace(ApplicationDbContext db, PlayerModel player, int raceID)
+        public void PlayerUpdateRace(ApplicationDbContext db, PlayerModel player, string Race)
         {
-            var RID = db.Races.Where(x => x.RaceID == raceID).FirstOrDefault().RaceID;
+            var RID = db.Races.Where(x => x.Name == Race).FirstOrDefault().RaceID;
             player.RaceID = RID;
         }
-        public void PlayerUpdateClass(ApplicationDbContext db, PlayerModel player, int classID)
+        public void PlayerUpdateClass(ApplicationDbContext db, PlayerModel player, string Class)
         {
-            var CID = db.Classes.Where(x => x.ClassID == classID).FirstOrDefault().ClassID;
+            var CID = db.Classes.Where(x => x.Name == Class).FirstOrDefault().ClassID;
             player.ClassID = CID;
         }
 
@@ -150,6 +150,60 @@ namespace CharacterMaker.BL
             int Additional = db.ModifierSets.Where(x => x.ModifierID == AddModID).FirstOrDefault().BonusFeats;
 
             return 1 + Additional;
+        }
+
+        public void CheckAlignmentAndDeityID(ApplicationDbContext db, string deity, string alignment, PlayerModel player)
+        {
+            string Alignment = alignment.Trim();
+            string Deity = deity.Trim();
+            player.AlignmentID = db.Alignments.Where(x => x.Name == Alignment).FirstOrDefault().AlignmentID;
+            player.DeityID = db.Deities.Where(x => x.Name == Deity).FirstOrDefault().DeityID;
+        }
+
+        public string GetRaceName(ApplicationDbContext db, int raceID)
+        {
+            return db.Races.Where(x => x.RaceID == raceID).FirstOrDefault().Name;
+        }
+        public string GetClassName(ApplicationDbContext db, int classID)
+        {
+            return db.Classes.Where(x => x.ClassID == classID).FirstOrDefault().Name;
+        }
+        public string GetDeityName(ApplicationDbContext db, int deityID)
+        {
+            return db.Deities.Where(x => x.DeityID == deityID).FirstOrDefault().Name;
+        }
+        public string GetAlignmentName(ApplicationDbContext db, int alignmentID)
+        {
+            return db.Alignments.Where(x => x.AlignmentID == alignmentID).FirstOrDefault().Name;
+        }
+        public int[] GetRaceModifiers(ApplicationDbContext db, int raceID)
+        {
+            int[] array = new int[6];
+
+            int ModID = db.Races.Where(x => x.RaceID == raceID).FirstOrDefault().ModifiersID;
+            var Mods = db.ModifierSets.Where(x => x.ModifierID == ModID).FirstOrDefault();
+            array[0] = Mods.STRModifier;
+            array[1] = Mods.DEXModifier;
+            array[2] = Mods.CONModifier;
+            array[3] = Mods.INTModifier;
+            array[4] = Mods.WISModifier;
+            array[5] = Mods.CHAModifier;
+
+            return array;
+        }
+
+        public string[] GetAbilitiesInfo(ApplicationDbContext db)
+        {
+            string[] InfoArray = new string[6];
+
+            InfoArray[0] = db.AbilityInfo.Where(x => x.Ability == "Strength").FirstOrDefault().Info;
+            InfoArray[1] = db.AbilityInfo.Where(x => x.Ability == "Dexterity").FirstOrDefault().Info;
+            InfoArray[2] = db.AbilityInfo.Where(x => x.Ability == "Constitution").FirstOrDefault().Info;
+            InfoArray[3] = db.AbilityInfo.Where(x => x.Ability == "Wisdom").FirstOrDefault().Info;
+            InfoArray[4] = db.AbilityInfo.Where(x => x.Ability == "Intelligence").FirstOrDefault().Info;
+            InfoArray[5] = db.AbilityInfo.Where(x => x.Ability == "Charisma").FirstOrDefault().Info;
+
+            return InfoArray;
         }
     }
 }

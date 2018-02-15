@@ -7,15 +7,15 @@
 
 @using (Html.BeginForm("End", "Char", FormMethod.Post))
 {
-    @Html.HiddenFor(m => m.DetailSet.DeityID)
-    @Html.HiddenFor(m => m.DetailSet.AlignmentID)
+    @Html.HiddenFor(m => m.DetailSet.Deity)
+    @Html.HiddenFor(m => m.DetailSet.Alignment)
 
     <div class="row">
         <div class="deity col-md-6 selectContainer">
             <select class="selectpicker" name="deity" title="Choose deity">
                 @for(int i=0; i < Model.Deities.Count(); i++)
                 {
-                    <option value="@i">@Model.Deities[i]</option>
+                    <option value="@Model.Deities[i]">@Model.Deities[i]</option>
                 }
             </select>
         </div>
@@ -23,7 +23,7 @@
             <select class="selectpicker" name="alignment" title="Choose alignment">
                 @for (int i = 0; i < Model.Alignments.Count(); i++)
                 {
-                    <option value="@i">@Model.Alignments[i]</option>
+                    <option value="@Model.Alignments[i]">@Model.Alignments[i]</option>
                 }
             </select>
         </div>
@@ -48,25 +48,20 @@
 <script src='@Url.Content("~/Scripts/jquery.validate.unobtrusive.js")' type='text/javascript'></script>
 <script>
     function CheckDropdownDeity(event, clickedIndex, newValue, oldValue) {
-        $("input[name='DetailSet.DeityID']").first().val(event.currentTarget.outerText);
-        if (($("input[name='DetailSet.DeityID']").first().val() != "") && ($("input[name='DetailSet.AlignmentID']").first().val() != ""))
+        $("input[name='DetailSet.Deity']").first().val(event.currentTarget.outerText.split('\n', 1)[0]);
+        if (($("input[name='DetailSet.Deity']").first().val() != "") && ($("input[name='DetailSet.Alignment']").first().val() != ""))
             $(".JustifyAround input").attr("type", "submit");
     }
     function CheckDropdownAlignment(event, clickedIndex, newValue, oldValue) {
-        $("input[name='DetailSet.AlignmentID']").first().val(event.currentTarget.outerText);
-        if (($("input[name='DetailSet.DeityID']").first().val() != "") && ($("input[name='DetailSet.AlignmentID']").first().val() != ""))
+        $("input[name='DetailSet.Alignment']").first().val(event.currentTarget.outerText.split('\n', 1)[0]);
+        if (($("input[name='DetailSet.Deity']").first().val() != "") && ($("input[name='DetailSet.Alignment']").first().val() != ""))
             $(".JustifyAround input").attr("type", "submit");
     }
 
     $(
         $('.deity').on('changed.bs.select', CheckDropdownDeity),
         $('.alignment').on('changed.bs.select', CheckDropdownAlignment),
-        $("input[name='DetailSet.DeityID']").first().val(""),
-        $("input[name='DetailSet.AlignmentID']").first().val("")
-        
-        //<span class="field-validation-error" data-valmsg-for="DetailSet.Name" data-valmsg-replace="true">
+        $("input[name='DetailSet.Deity']").first().val(""),
+        $("input[name='DetailSet.Alignment']").first().val("")
     )
-
-    
-
 </script>
